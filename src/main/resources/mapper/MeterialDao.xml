@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wilder.power_supply.dao.MeterialDao">
+    <insert id="insertMeterialList" parameterType="com.wilder.power_supply.model.Meterial">
+        INSERT INTO meterial
+        (meterial_code, meterial_name, meterial_model, meterial_unit,
+        meterial_price, meterial_check, meterial_attention)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.meterialCode},
+            #{item.meterialName},
+            #{item.meterialModel},
+            #{item.meterialUnit},
+            #{item.meterialPrice},
+            #{item.meterialCheck},
+            #{item.meterialAttention}
+            )
+        </foreach>
+    </insert>
+
+</mapper>
