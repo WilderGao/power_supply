@@ -2,8 +2,17 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.wilder.power_supply.dao.MeterialDao">
+    <resultMap id="meterialMap" type="com.wilder.power_supply.model.Meterial">
+        <id property="meterialId" column="meterial_id"/>
+        <result property="meterialCode" column="meterial_code"/>
+        <result property="meterialName" column="meterial_name"/>
+        <result property="meterialModel" column="meterial_model"/>
+        <result property="meterialUnit" column="meterial_unit"/>
+        <result property="meterialPrice" column="meterial_price"/>
+        <result property="meterialCheck" column="meterial_check"/>
+        <result property="meterialAttention" column="meterial_attention"/>
+    </resultMap>
     <insert id="insertMeterialList" parameterType="com.wilder.power_supply.model.Meterial">
         INSERT INTO meterial
         (meterial_code, meterial_name, meterial_model, meterial_unit,
@@ -23,14 +32,14 @@
     </insert>
 
     <!-- 通过材料编号或者材料名称对材料进行模糊查找-->
-    <select id="selectMeterialLike" resultType="com.wilder.power_supply.model.Meterial">
-        SELECT * meterial 
+    <select id="selectMeterialLike" resultMap="meterialMap">
+        SELECT * FROM meterial
         WHERE 
-        <if test="meterial_name != null">
-            meterial_name LIKE '%'#{meterialName}'%'
+        <if test="meterialName != null">
+            meterial_name LIKE "%"#{meterialName}"%"
         </if>
-        <if test="meterial_code != null">
-            AND meterial_code LIKE '%'#{meterialCode}'%'
+        <if test="meterialCode != null">
+            meterial_code LIKE "%"#{meterialCode}"%"
         </if>
     </select>
 </mapper>

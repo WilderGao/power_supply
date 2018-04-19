@@ -43,6 +43,8 @@ public class Meterial extends BaseRowModel{
     @Getter @Setter
     private String meterialAttention;
 
+
+
     @Override
     public String toString() {
         return "Meterial{" +

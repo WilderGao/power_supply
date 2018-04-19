@@ -1,5 +1,7 @@
 package com.wilder.power_supply.service;
 
+import com.wilder.power_supply.exception.MeterialException;
+import com.wilder.power_supply.model.FeedBack;
 import com.wilder.power_supply.model.Meterial;
 
 import java.util.List;
@@ -17,4 +19,6 @@ public interface MeterialService {
      * @param
      */
     void meterialHandler(String excelPath) throws Exception;
+
+    FeedBack<List<Meterial>> searchMeterial(String meterialCode, String meterialName) throws MeterialException;
 }

@@ -19,4 +19,9 @@ public class PowerSupplyApplicationTests {
 		meterialService.meterialHandler("F:\\QG\\项目\\外包\\禅城供电局\\业扩材料表（分类）20180410.xls");
 	}
 
+	@Test
+	public void meterialSearch(){
+		System.out.println(meterialService.searchMeterial("0100010025", null));
+	}
+
 }
