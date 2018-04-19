@@ -25,4 +25,13 @@ public interface MeterialDao {
      * @return
      */
     int insertMeterialList(@Param("list") List<Meterial> list);
+
+    /**
+     * 模糊材料名或者材料编号模糊匹配
+     * @param meterialName
+     * @param meterialCode
+     * @return
+     */
+    List<Meterial> selectMeterialLike(@Param("meterialName")String meterialName ,
+                                      @Param("meterialCode")String meterialCode);
 }
