@@ -16,7 +16,6 @@ import java.util.List;
  */
 @Mapper
 @Repository
-@Scope("prototype")
 public interface MeterialDao {
 
     /**

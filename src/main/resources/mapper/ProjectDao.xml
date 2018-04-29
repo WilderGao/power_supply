@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wilder.power_supply.dao.ProjectDao">
+    <resultMap id="projectMap" type="com.wilder.power_supply.model.Project">
+        <id column="project_id" property="projectId"/>
+        <result column="distinct" property="distinct"/>
+        <result column="batch" property="batch"/>
+        <result column="power_supply" property="powerSupply"/>
+        <result column="project_code" property="projectCode"/>
+        <result column="project_name" property="projectName"/>
+    </resultMap>
+
+    <!-- 插入新工程并返回对应的Id -->
+    <insert id="insertNewProject" parameterType="com.wilder.power_supply.model.Project">
+        INSERT INTO project
+        (district, batch, power_supply, project_code, project_name)
+        VALUES
+        (#{district}, #{batch}, #{powerSupply},
+         #{projectCode}, #{projectName});
+
+        SELECT LAST_INSERT_ID();
+    </insert>
+
+    <!-- 判断这项工程是否存在-->
+    <select id="projectExist" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM  project
+        <if test="projectCode != null">
+            WHERE project_code = #{projectCode}
+        </if>
+    </select>
+
+    <insert id=""
+</mapper>

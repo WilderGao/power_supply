@@ -3,6 +3,7 @@ package com.wilder.power_supply.utils;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.wilder.power_supply.model.Meterial;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  * @time:2018/4/14
  * @Discription：
  */
+@Slf4j
 public class ExcelListener extends AnalysisEventListener<Meterial> {
 
     private List<Meterial> datas = new ArrayList<>();
@@ -22,10 +24,7 @@ public class ExcelListener extends AnalysisEventListener<Meterial> {
 
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
-//        for (Meterial data : datas) {
-//            System.out.println(data);
-//        }
-        System.out.println(datas.size());
+        log.info("====== 导入完成 ======");
     }
 
     public void setDatas(List<Meterial> datas){

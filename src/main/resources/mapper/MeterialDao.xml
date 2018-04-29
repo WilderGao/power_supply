@@ -13,6 +13,8 @@
         <result property="meterialCheck" column="meterial_check"/>
         <result property="meterialAttention" column="meterial_attention"/>
     </resultMap>
+
+
     <insert id="insertMeterialList" parameterType="com.wilder.power_supply.model.Meterial">
         INSERT INTO meterial
         (meterial_code, meterial_name, meterial_model, meterial_unit,

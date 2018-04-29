@@ -1,5 +1,6 @@
 package com.wilder.power_supply;
 
+import com.wilder.power_supply.exception.MeterialException;
 import com.wilder.power_supply.service.Impl.MeterialServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,7 @@ public class PowerSupplyApplicationTests {
 	}
 
 	@Test
-	public void meterialSearch(){
+	public void meterialSearch() throws MeterialException {
 		System.out.println(meterialService.searchMeterial("0100010025", null));
 	}
 
