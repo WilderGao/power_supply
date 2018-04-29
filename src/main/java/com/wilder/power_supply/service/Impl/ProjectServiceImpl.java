@@ -3,7 +3,6 @@ package com.wilder.power_supply.service.Impl;
 import com.wilder.power_supply.dao.ProjectDao;
 import com.wilder.power_supply.dto.ResultInfo;
 import com.wilder.power_supply.enums.StatusEnum;
-import com.wilder.power_supply.enums.StatusStatementEnum;
 import com.wilder.power_supply.exception.ProjectException;
 import com.wilder.power_supply.model.Project;
 import com.wilder.power_supply.service.ProjectService;
@@ -27,11 +26,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ResultInfo buildProjectHandler(Project project) throws ProjectException {
-
         //check if the project complete
         String checkResult = checkProject(project);
         if (! checkResult.equals(PROJECT_COMPLETE)){
             throw new ProjectException(StatusEnum.ERROR.getState(), checkResult);
+
         }else {
             //check if projectCode exists in database
             int exist = projectDao.projectExist(project.getProjectCode());
@@ -39,14 +38,16 @@ public class ProjectServiceImpl implements ProjectService {
                 // exist this project , insert fail
                 ResultInfo resultInfo = new ResultInfo(StatusEnum.ERROR.getState(), PROJECT_EXIST, null);
                 return resultInfo;
+
             }else {
                 // insert into project table
                 int projectId = projectDao.insertNewProject(project);
                 //insert into material-project
-
+                projectDao.meterialDetail(projectId, project.getMeterials());
+                ResultInfo resultInfo = new ResultInfo(StatusEnum.OK.getState(), OK);
+                return resultInfo;
             }
         }
-
     }
 
 

@@ -1,9 +1,12 @@
 package com.wilder.power_supply.dao;
 
+import com.wilder.power_supply.model.Meterial;
 import com.wilder.power_supply.model.Project;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author:Wilder Gao
@@ -16,10 +19,11 @@ public interface ProjectDao {
 
     /**
      * 判断数据库中是否存在对应的工程编码
-     * @param projectCode
-     * @return
+     * @param projectCode  工程编码
+     * @return 0为不存在，否则存在
      */
     int projectExist(@Param("projectCode") String projectCode);
+
 
     /**
      * 插入新工程并返回新工程对应的Id
@@ -27,4 +31,14 @@ public interface ProjectDao {
      * @return 新工程Id
      */
     int insertNewProject(Project project);
+
+
+    /**
+     * 插入新工程的所有材料信息
+     * @param projectId 工程Id
+     * @param meterials 材料信息集合
+     * @return  插入结果
+     */
+    int meterialDetail(@Param("projectId")int projectId,
+                       @Param("list")List<Meterial> meterials);
 }

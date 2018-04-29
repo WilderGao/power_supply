@@ -31,5 +31,17 @@
         </if>
     </select>
 
-    <insert id=""
+
+    <insert id="meterialDetail" parameterType="com.wilder.power_supply.model.Meterial">
+        INSERT INTO demand
+        (project_id, meterial_id, num)
+        VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+              ${projectId},
+              ${item.meterialId},
+              ${item.num}
+            )
+        </foreach>
+    </insert>
 </mapper>

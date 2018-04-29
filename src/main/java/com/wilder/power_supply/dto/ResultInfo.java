@@ -26,4 +26,8 @@ public class ResultInfo<T> {
      */
     private T info;
 
+    public ResultInfo(int status, String message){
+        this.status = status;
+        this.message = message;
+    }
 }

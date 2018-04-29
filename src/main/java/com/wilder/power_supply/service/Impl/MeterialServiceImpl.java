@@ -53,6 +53,7 @@ public class MeterialServiceImpl implements MeterialService {
         ResultInfo<List<Meterial>> resultInfo = new ResultInfo();
 
         if (meterialCode == null && meterialName == null){
+            log.error(" ====== all parameter are null ====== ");
             resultInfo.setStatus(StatusEnum.PATAMETER_ERROR.getState());
                 throw new MeterialException(StatusEnum.PATAMETER_ERROR.getState(), "传入参数有误");
         }else {
@@ -60,7 +61,9 @@ public class MeterialServiceImpl implements MeterialService {
             List<Meterial> meterials = meterialDao.selectMeterialLike(meterialName, meterialCode);
             resultInfo.setStatus(StatusEnum.OK.getState());
             resultInfo.setInfo(meterials);
+            log.info(" ====== select success ");
         }
+
         return resultInfo;
     }
 }

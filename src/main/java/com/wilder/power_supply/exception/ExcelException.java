@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class ExcelException extends Exception {
     /**
      * 异常编号

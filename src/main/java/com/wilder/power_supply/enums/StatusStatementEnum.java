@@ -11,4 +11,5 @@ public class StatusStatementEnum {
     public static String PROJECT_METERIAL_NULL = "materials is null";
     public static String PROJECT_COMPLETE = "project complete";
     public static String PROJECT_EXIST = "project is existed";
+    public static String OK = " OK ";
 }

@@ -58,4 +58,9 @@ public class Meterial extends BaseRowModel{
      */
     @ExcelProperty(value = "备注1（隐藏列）")
     private String meterialAttention;
+
+    /**
+     * 材料数量
+     */
+    private int num;
 }
