@@ -14,13 +14,6 @@ import java.util.List;
 public interface MeterialService {
 
     /**
-     * 将excel中的内容导入到数据库表中
-     * @param excelPath
-     * @param
-     */
-    void meterialHandler(String excelPath) throws Exception;
-
-    /**
      * 按材料编码或者材料名获取对应的材料信息
      * @param meterialCode  材料编码
      * @param meterialName  材料名称

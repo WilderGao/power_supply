@@ -1,6 +1,8 @@
 package com.wilder.power_supply;
 
+import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.exception.MeterialException;
+import com.wilder.power_supply.service.Impl.ExcelServiceImpl;
 import com.wilder.power_supply.service.Impl.MeterialServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,14 +17,22 @@ public class PowerSupplyApplicationTests {
 	@Autowired
 	private MeterialServiceImpl meterialService;
 
-	@Test
-	public void contextLoads() throws Exception {
-		meterialService.meterialHandler("F:\\QG\\项目\\外包\\禅城供电局\\业扩材料表（分类）20180410.xls");
-	}
+	@Autowired
+	private ExcelServiceImpl excelService;
+
+//	@Test
+//	public void contextLoads() throws Exception {
+//		meterialService.meterialHandler("F:\\QG\\项目\\外包\\禅城供电局\\业扩材料表（分类）20180410.xls");
+//	}
 
 	@Test
 	public void meterialSearch() throws MeterialException {
 		System.out.println(meterialService.searchMeterial("0100010025", null));
+	}
+
+	@Test
+	public void excelUtilTest() throws ExcelException {
+		excelService.excelHandler("F:\\QG\\项目\\外包\\禅城供电局\\物资需求计划表.xls", "Project");
 	}
 
 }

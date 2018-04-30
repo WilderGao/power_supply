@@ -32,6 +32,7 @@
     </select>
 
 
+    <!-- 插入一个工程对应的材料详情-->
     <insert id="meterialDetail" parameterType="com.wilder.power_supply.model.Meterial">
         INSERT INTO demand
         (project_id, meterial_id, num)
@@ -41,6 +42,23 @@
               ${projectId},
               ${item.meterialId},
               ${item.num}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量插入工程 -->
+    <insert id="insertProjectList" parameterType="com.wilder.power_supply.model.Project">
+        INSERT INTO project
+        (district, batch, power_supply,
+        project_code, project_name)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.district},
+            #{item.batch},
+            #{item.powerSupply},
+            #{item.projectCode},
+            #{item.projectName}
             )
         </foreach>
     </insert>

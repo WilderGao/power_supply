@@ -34,21 +34,6 @@ public class MeterialServiceImpl implements MeterialService {
     private MeterialDao meterialDao;
 
     @Override
-    public void meterialHandler(String excelPath) throws ExcelException {
-        if (!excelPath.endsWith(EXCEL_END_FIRST) && !excelPath.endsWith(EXCEL_END_SECOND)){
-            throw new ExcelException(StatusEnum.ERROR.getState(), "文件格式不正确");
-        }else {
-            List<Meterial> meterials = new ArrayList<>();
-            ExcelUtil.getMeterialFromExcel(excelPath, meterials);
-            if (meterials.size() == 0){
-                throw new ExcelException(StatusEnum.ERROR.getState(), "excel 文件中没有数据");
-            }
-            meterialDao.insertMeterialList(meterials);
-            log.info("插入数据库成功！！！");
-        }
-    }
-
-    @Override
     public ResultInfo<List<Meterial>> searchMeterial(String meterialCode, String meterialName) throws MeterialException {
         ResultInfo<List<Meterial>> resultInfo = new ResultInfo();
 

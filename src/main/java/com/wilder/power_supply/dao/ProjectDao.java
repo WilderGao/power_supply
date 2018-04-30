@@ -41,4 +41,11 @@ public interface ProjectDao {
      */
     int meterialDetail(@Param("projectId")int projectId,
                        @Param("list")List<Meterial> meterials);
+
+    /**
+     * 批量插入工程
+     * @param projects 工程集合
+     * @return
+     */
+    int insertProjectList(@Param("list") List<Project> projects);
 }
