@@ -12,6 +12,17 @@
         <result column="project_name" property="projectName"/>
     </resultMap>
 
+    <resultMap id="materialMap" type="com.wilder.power_supply.model.Meterial">
+        <id property="meterialId" column="meterial_id"/>
+        <result property="meterialCode" column="meterial_code"/>
+        <result property="meterialName" column="meterial_name"/>
+        <result property="meterialModel" column="meterial_model"/>
+        <result property="meterialUnit" column="meterial_unit"/>
+        <result property="meterialPrice" column="meterial_price"/>
+        <result property="meterialCheck" column="meterial_check"/>
+        <result property="meterialAttention" column="meterial_attention"/>
+    </resultMap>
+
     <!-- 插入新工程并返回对应的Id -->
     <insert id="insertNewProject" parameterType="com.wilder.power_supply.model.Project">
         INSERT INTO project
@@ -30,7 +41,6 @@
             WHERE project_code = #{projectCode}
         </if>
     </select>
-
 
     <!-- 插入一个工程对应的材料详情-->
     <insert id="meterialDetail" parameterType="com.wilder.power_supply.model.Meterial">
@@ -62,4 +72,29 @@
             )
         </foreach>
     </insert>
+
+    <!-- 查看工程列表 -->
+    <select id="getProjectList" resultMap="projectMap">
+        SELECT * FROM project
+        ORDER BY
+        project_code
+    </select>
+
+    <!-- 获得一个工程的详细信息 -->
+    <select id="getProjectDetail" resultMap="materialMap">
+        SELECT meterial.*, demand.num FROM meterial
+        LEFT JOIN demand
+        ON meterial.meterial_id = demand.meterial_id
+        WHERE demand.meterial_id IN(
+          SELECT meterial_id
+          FROM demand
+          WHERE project_id = ${projectId})
+        AND demand.project_id = ${projectId}
+    </select>
+
+    <!-- 根据Id获取工程 -->
+    <select id="getProjectById" resultMap="projectMap">
+        SELECT * FROM  project
+        WHERE project_id = ${projectId}
+    </select>
 </mapper>

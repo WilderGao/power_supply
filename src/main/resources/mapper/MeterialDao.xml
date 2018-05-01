@@ -43,5 +43,6 @@
         <if test="meterialCode != null">
             meterial_code LIKE "%"#{meterialCode}"%"
         </if>
+        is_update = 0
     </select>
 </mapper>

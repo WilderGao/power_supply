@@ -48,4 +48,23 @@ public interface ProjectDao {
      * @return
      */
     int insertProjectList(@Param("list") List<Project> projects);
+
+    /**
+     * 获取工程信息
+     * @return
+     */
+    List<Project> getProjectList();
+
+    /**
+     * 获取一个工程的详细信息
+     */
+    List<Meterial> getProjectDetail(@Param("projectId") int projectId);
+
+
+    /**
+     * 根据Id获取对应工程
+     * @param projectId
+     * @return
+     */
+    Project getProjectById(@Param("projectId") int projectId);
 }

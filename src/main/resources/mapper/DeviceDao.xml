@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wilder.power_supply.dao.DeviceDao">
+    <resultMap id="materialMap" type="com.wilder.power_supply.model.Meterial">
+        <id property="meterialId" column="meterial_id"/>
+        <result property="meterialCode" column="meterial_code"/>
+        <result property="meterialName" column="meterial_name"/>
+        <result property="meterialModel" column="meterial_model"/>
+        <result property="meterialUnit" column="meterial_unit"/>
+        <result property="meterialPrice" column="meterial_price"/>
+        <result property="meterialCheck" column="meterial_check"/>
+        <result property="meterialAttention" column="meterial_attention"/>
+    </resultMap>
+
+    <!-- 根据 设备Id 查询对应的材料信息 -->
+    <select id="getMeterialsById" resultMap="materialMap">
+        SELECT
+        meterial.*, device_meterial.num, device_meterial.device_id
+        FROM meterial
+        LEFT JOIN
+        device_meterial
+        ON
+        meterial.meterial_id = device_meterial.meterial_id
+        WHERE
+        device_meterial.meterial_id IN (
+        SELECT meterial_id FROM device_meterial
+        WHERE device_id = ${deviceId})
+        AND device_meterial.device_id = ${deviceId};
+    </select>
+</mapper>

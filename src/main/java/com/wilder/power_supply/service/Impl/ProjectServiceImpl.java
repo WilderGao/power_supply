@@ -3,8 +3,8 @@ package com.wilder.power_supply.service.Impl;
 import com.wilder.power_supply.dao.ProjectDao;
 import com.wilder.power_supply.dto.ResultInfo;
 import com.wilder.power_supply.enums.StatusEnum;
-import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.exception.ProjectException;
+import com.wilder.power_supply.model.Meterial;
 import com.wilder.power_supply.model.Project;
 import com.wilder.power_supply.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +53,41 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+
+    @Override
+    public ResultInfo<List<Project>> projectListHandler() throws ProjectException {
+        List<Project> projects = projectDao.getProjectList();
+        if (projects.size() == 0){
+            throw new ProjectException(StatusEnum.ERROR.getState(), " 工程为空 ");
+        }else {
+            ResultInfo<List<Project>> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "OK", projects);
+            return resultInfo;
+        }
+    }
+
+
+    @Override
+    public ResultInfo<Project> projectDetailHandler(int projectId) throws ProjectException {
+        if (projectId <= 0){
+            log.error("工程 Id 出错");
+            throw new ProjectException(StatusEnum.ERROR.getState(), "工程 Id 出错");
+        }else {
+            List<Meterial> materials = projectDao.getProjectDetail(projectId);
+            if (materials.size() == 0){
+                log.error("详细材料为空");
+                throw new ProjectException(StatusEnum.ERROR.getState(), "详细材料为空");
+            }
+            Project project = projectDao.getProjectById(projectId);
+            if (project == null) {
+                log.error("获取工程失败");
+                throw new ProjectException(StatusEnum.ERROR.getState(), "获取工程失败");
+            }
+            project.setMeterials(materials);
+            ResultInfo<Project> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(),
+                    "OK", project);
+            return resultInfo;
+        }
+    }
 
 
     /**

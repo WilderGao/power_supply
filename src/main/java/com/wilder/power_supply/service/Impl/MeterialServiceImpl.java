@@ -37,17 +37,11 @@ public class MeterialServiceImpl implements MeterialService {
     public ResultInfo<List<Meterial>> searchMeterial(String meterialCode, String meterialName) throws MeterialException {
         ResultInfo<List<Meterial>> resultInfo = new ResultInfo();
 
-        if (meterialCode == null && meterialName == null){
-            log.error(" ====== all parameter are null ====== ");
-            resultInfo.setStatus(StatusEnum.PATAMETER_ERROR.getState());
-                throw new MeterialException(StatusEnum.PATAMETER_ERROR.getState(), "传入参数有误");
-        }else {
 
             List<Meterial> meterials = meterialDao.selectMeterialLike(meterialName, meterialCode);
             resultInfo.setStatus(StatusEnum.OK.getState());
             resultInfo.setInfo(meterials);
             log.info(" ====== select success ");
-        }
 
         return resultInfo;
     }
