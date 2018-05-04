@@ -2,6 +2,7 @@ package com.wilder.power_supply.service.Impl;
 
 import com.wilder.power_supply.dao.MeterialDao;
 import com.wilder.power_supply.enums.StatusEnum;
+import com.wilder.power_supply.enums.StatusStatementEnum;
 import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.exception.MeterialException;
 import com.wilder.power_supply.dto.ResultInfo;
@@ -34,15 +35,25 @@ public class MeterialServiceImpl implements MeterialService {
     private MeterialDao meterialDao;
 
     @Override
-    public ResultInfo<List<Meterial>> searchMeterial(String meterialCode, String meterialName) throws MeterialException {
-        ResultInfo<List<Meterial>> resultInfo = new ResultInfo();
+    public ResultInfo<List<Meterial>> searchMaterial(String materialCode, String materialName) throws MeterialException {
+        if (null == materialCode && null == materialName){
+            log.error(" ====== material's name and code are empty ======");
+            throw new MeterialException(StatusEnum.ERROR.getState(), StatusStatementEnum.MATERIAL_NAME_AND_CODE_EMPTY);
 
+        }else {
+            List<Meterial> materials = meterialDao.selectMeterialLike(materialName, materialCode);
+            if (materials.size() == 0){
+                log.error(" ====== 查询不到相关的材料信息 ====== ");
+                ResultInfo<List<Meterial>> resultInfo = new ResultInfo<>(StatusEnum.ERROR.getState(), "查询不到相关的材料信息");
+                return resultInfo;
 
-            List<Meterial> meterials = meterialDao.selectMeterialLike(meterialName, meterialCode);
-            resultInfo.setStatus(StatusEnum.OK.getState());
-            resultInfo.setInfo(meterials);
-            log.info(" ====== select success ");
+            }else {
+                log.info(" ====== select success ======");
+                ResultInfo<List<Meterial>> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "OK");
+                resultInfo.setInfo(materials);
+                return resultInfo;
 
-        return resultInfo;
+            }
+        }
     }
 }

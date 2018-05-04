@@ -7,12 +7,15 @@ import com.wilder.power_supply.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author:Wilder Gao
  * @time:2018/4/29
  * @Discription：与工程有关的控制器
  */
 @RestController
+@RequestMapping(value = "/project")
 @CrossOrigin
 public class ProjectController {
 
@@ -24,10 +27,24 @@ public class ProjectController {
      * @param project
      * @return
      */
-    @PostMapping(value = "/project")
+    @PostMapping(value = "/build")
     @ResponseBody
     public ResultInfo buildProject(@RequestBody Project project) throws ProjectException {
         return projectService.buildProjectHandler(project);
+    }
+
+
+    @GetMapping(value = "/get")
+    @ResponseBody
+    public ResultInfo<List<Project>> projectList() throws ProjectException {
+        return projectService.projectListHandler();
+    }
+
+
+    @GetMapping(value = "/detail")
+    @ResponseBody
+    public ResultInfo<Project> projectDetail(@RequestParam("projectId") int projectId) throws ProjectException {
+        return projectService.projectDetailHandler(projectId);
     }
 
 }

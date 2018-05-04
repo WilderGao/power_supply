@@ -69,6 +69,7 @@ public class ExcelUtil {
         }
     }
 
+
     /**
      * 将材料内容导出为excel表
      * @param materials 材料详情
@@ -147,7 +148,8 @@ public class ExcelUtil {
             workbook.write(outputStream);
             outputStream.close();
             log.info(" 导出完成 ");
-            return null;
+
+            return excelPath;
         }
     }
 

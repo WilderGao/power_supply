@@ -12,9 +12,20 @@ import com.wilder.power_supply.model.Device;
  */
 public interface DeviceService {
 
+
     /**
      * 根据设备Id获取设备的详细信息
-     * @return
+     * @param deviceId      设备Id
+     * @param deviceName    设备名称
+     * @return  设备详情
+     * @throws DeviceException
      */
     ResultInfo<Device> deviceDetailHandler(int deviceId, String deviceName) throws DeviceException;
+
+    /**
+     * 导出excel表格，返回对应的连接
+     * @param device
+     * @return
+     */
+    ResultInfo<String> deportDevice(Device device);
 }

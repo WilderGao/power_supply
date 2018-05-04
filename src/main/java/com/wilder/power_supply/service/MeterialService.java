@@ -15,10 +15,10 @@ public interface MeterialService {
 
     /**
      * 按材料编码或者材料名获取对应的材料信息
-     * @param meterialCode  材料编码
-     * @param meterialName  材料名称
+     * @param materialCode 材料编码
+     * @param materialName  材料名称
      * @return
      * @throws MeterialException
      */
-    ResultInfo<List<Meterial>> searchMeterial(String meterialCode, String meterialName) throws MeterialException;
+    ResultInfo<List<Meterial>> searchMaterial(String materialCode, String materialName) throws MeterialException;
 }

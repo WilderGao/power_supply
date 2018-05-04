@@ -39,7 +39,7 @@ public class PowerSupplyApplicationTests {
 
 	@Test
 	public void meterialSearch() throws MeterialException {
-		System.out.println(meterialService.searchMeterial(null, null));
+		System.out.println(meterialService.searchMaterial(null, null));
 	}
 
 	@Test
