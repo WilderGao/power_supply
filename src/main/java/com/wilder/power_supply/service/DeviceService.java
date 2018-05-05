@@ -2,7 +2,10 @@ package com.wilder.power_supply.service;
 
 import com.wilder.power_supply.dto.ResultInfo;
 import com.wilder.power_supply.exception.DeviceException;
+import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.model.Device;
+
+import java.io.IOException;
 
 
 /**
@@ -22,10 +25,16 @@ public interface DeviceService {
      */
     ResultInfo<Device> deviceDetailHandler(int deviceId, String deviceName) throws DeviceException;
 
+
     /**
      * 导出excel表格，返回对应的连接
-     * @param device
+     * @param device 设备名称
+     * @param excelPath 导出excel路径
      * @return
+     * @throws ExcelException
      */
-    ResultInfo<String> deportDevice(Device device);
+    ResultInfo<String> deportDevice(Device device, String excelPath) throws ExcelException, IOException, DeviceException;
+
+
+
 }

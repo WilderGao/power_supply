@@ -28,9 +28,9 @@ public class MaterialController {
     @PostMapping(value = "/fuzzy")
     @ResponseBody
     public ResultInfo<List<Meterial>> fuzzySearch(@RequestBody Map<String, String> materialMap) throws MeterialException {
+
         String materialName = materialMap.get("materialName");
         String materialCode = materialMap.get("materialCode");
-
         return materialService.searchMaterial(materialCode, materialName);
     }
 

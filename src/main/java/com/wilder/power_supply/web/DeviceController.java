@@ -1,10 +1,16 @@
 package com.wilder.power_supply.web;
 
+import com.wilder.power_supply.dto.ResultInfo;
+import com.wilder.power_supply.exception.DeviceException;
+import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.model.Device;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.wilder.power_supply.service.DeviceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.transform.Result;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,7 +23,29 @@ import java.util.List;
 @CrossOrigin
 public class DeviceController {
 
-    public RequestInfo<List<Device>> diviceList(){
+    @Autowired
+    private DeviceService deviceService;
 
+
+    public ResultInfo<List<Device>> deviceList(){
+        return null;
+    }
+
+
+    @PostMapping(value = "/deport")
+    @ResponseBody
+    public ResultInfo<String> deportDeviceExcel(@RequestBody Device device, HttpServletRequest request) throws ExcelException, DeviceException, IOException {
+        String excelPath = request.getServletContext().getRealPath("/device/" + device.getDeviceName()+".xls");
+        ResultInfo<String> resultInfo = deviceService.deportDevice(device, excelPath);
+
+        return resultInfo;
+    }
+
+
+    @GetMapping(value = "/detail")
+    @ResponseBody
+    public ResultInfo<Device> deviceDetail(@RequestParam("deviceId")int deviceId,
+                                           @RequestParam("deviceName")String deviceName) throws DeviceException {
+        return deviceService.deviceDetailHandler(deviceId, deviceName);
     }
 }

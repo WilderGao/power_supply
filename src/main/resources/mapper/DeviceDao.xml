@@ -12,6 +12,7 @@
         <result property="meterialPrice" column="meterial_price"/>
         <result property="meterialCheck" column="meterial_check"/>
         <result property="meterialAttention" column="meterial_attention"/>
+        <result property="num" column="num"/>
     </resultMap>
 
     <!-- 根据 设备Id 查询对应的材料信息 -->
@@ -29,4 +30,6 @@
         WHERE device_id = ${deviceId})
         AND device_meterial.device_id = ${deviceId};
     </select>
+
+
 </mapper>
