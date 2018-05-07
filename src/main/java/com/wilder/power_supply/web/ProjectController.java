@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author:Wilder Gao
@@ -24,12 +25,14 @@ public class ProjectController {
 
     /**
      * 创建新工程
-     * @param project
+     * @param
      * @return
      */
     @PostMapping(value = "/build")
     @ResponseBody
-    public ResultInfo buildProject(@RequestBody Project project) throws ProjectException {
+    public ResultInfo<String> buildProject(@RequestBody Project project) throws ProjectException {
+
+        System.out.println(project);
         return projectService.buildProjectHandler(project);
     }
 

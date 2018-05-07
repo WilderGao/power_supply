@@ -1,9 +1,11 @@
 package com.wilder.power_supply.dao;
 
+import com.wilder.power_supply.model.Device;
 import com.wilder.power_supply.model.Meterial;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -21,4 +23,19 @@ public interface DeviceDao {
      * @return
      */
     List<Meterial> getMeterialsById(@Param("deviceId")int deviceId);
+
+
+    /**
+     * 获得所有设备
+     * @return
+     */
+    List<Device> getDeviceList();
+
+
+    /**
+     * 通过设备Id获取设备名
+     * @param deviceId
+     * @return
+     */
+    String getDeviceName(@Param("deviceId")int deviceId);
 }

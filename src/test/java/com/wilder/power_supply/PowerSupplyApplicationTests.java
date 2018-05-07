@@ -49,7 +49,7 @@ public class PowerSupplyApplicationTests {
 
 	@Test
 	public void deviceDetailTest() throws DeviceException, IOException, ExcelException {
-		ResultInfo<Device> resultInfo = deviceService.deviceDetailHandler(1, "J08配电房");
+		ResultInfo<Device> resultInfo = deviceService.deviceDetailHandler(1);
 		for (Meterial meterial : resultInfo.getInfo().getMeterials()) {
 			System.out.println(meterial);
 		}

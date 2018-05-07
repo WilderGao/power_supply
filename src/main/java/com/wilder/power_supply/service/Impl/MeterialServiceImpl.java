@@ -36,11 +36,7 @@ public class MeterialServiceImpl implements MeterialService {
 
     @Override
     public ResultInfo<List<Meterial>> searchMaterial(String materialCode, String materialName) throws MeterialException {
-        if (null == materialCode && null == materialName){
-            log.error(" ====== material's name and code are empty ======");
-            throw new MeterialException(StatusEnum.ERROR.getState(), StatusStatementEnum.MATERIAL_NAME_AND_CODE_EMPTY);
 
-        }else {
             List<Meterial> materials = meterialDao.selectMeterialLike(materialName, materialCode);
             if (materials.size() == 0){
                 log.error(" ====== 查询不到相关的材料信息 ====== ");
@@ -54,6 +50,13 @@ public class MeterialServiceImpl implements MeterialService {
                 return resultInfo;
 
             }
-        }
+
     }
 }
+
+
+//        if (null == materialCode && null == materialName){
+//            log.error(" ====== material's name and code are empty ======");
+//            throw new MeterialException(StatusEnum.ERROR.getState(), StatusStatementEnum.MATERIAL_NAME_AND_CODE_EMPTY);
+//
+//        }else {

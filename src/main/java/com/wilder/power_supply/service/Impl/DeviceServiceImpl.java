@@ -1,5 +1,6 @@
 package com.wilder.power_supply.service.Impl;
 
+import com.alibaba.druid.support.spring.stat.annotation.Stat;
 import com.wilder.power_supply.dao.DeviceDao;
 import com.wilder.power_supply.dto.ResultInfo;
 import com.wilder.power_supply.enums.StatusEnum;
@@ -18,29 +19,24 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author:Wilder Gao
- * @time:2018/5/1
- * @Discription：与设备有关的逻辑接口实现类
+ * @author Wilder Gao
+ * time:2018/5/1
+ * Description：与设备有关的逻辑接口实现类
  */
 @Service
 @Slf4j
 @Transactional(rollbackFor = Exception.class)
 public class DeviceServiceImpl implements DeviceService {
-    private static String url = "http://localhost:8080/device/";
+    private static String url = "http://192.168.43.96:8080/device/";
 
     @Autowired
     private DeviceDao deviceDao;
 
     @Override
-    public ResultInfo<Device> deviceDetailHandler(int deviceId, String deviceName) throws DeviceException {
+    public ResultInfo<Device> deviceDetailHandler(int deviceId) throws DeviceException {
         if (deviceId <= 0 ){
             log.error("获取的 设备Id 有误");
             throw new DeviceException(StatusEnum.ERROR.getState(), "设备Id有误");
-        }else if (deviceName == null) {
-
-            log.error("获取的 设备名称为空 ");
-            throw new DeviceException(StatusEnum.ERROR.getState(), "设备名称为空");
-
         }else {
             //获取设备的详细材料信息
             List<Meterial> deviceDetail = deviceDao.getMeterialsById(deviceId);
@@ -48,6 +44,10 @@ public class DeviceServiceImpl implements DeviceService {
                 throw new DeviceException(StatusEnum.ERROR.getState(), "材料信息结果为空");
             }else {
 
+                String deviceName = deviceDao.getDeviceName(deviceId);
+                if (null == deviceName){
+                    throw new DeviceException(StatusEnum.ERROR.getState(), "设备不存在");
+                }
                 Device device = new Device(deviceId, deviceName, deviceDetail);
                 ResultInfo<Device> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "OK", device);
                 return resultInfo;
@@ -75,5 +75,18 @@ public class DeviceServiceImpl implements DeviceService {
         }
     }
 
+    @Override
+    public ResultInfo<List<Device>> deviceList(){
+        List<Device> devices = deviceDao.getDeviceList();
+        if (0 == devices.size()){
+            log.info("没有设备信息");
+            ResultInfo<List<Device>> resultInfo = new ResultInfo<>(StatusEnum.ERROR.getState(), "没有设备信息");
+            return resultInfo;
+        }else {
+            ResultInfo<List<Device>> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "OK");
+            resultInfo.setInfo(devices);
+            return resultInfo;
+        }
+    }
 
 }

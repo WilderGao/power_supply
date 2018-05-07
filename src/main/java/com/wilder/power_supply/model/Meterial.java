@@ -15,7 +15,7 @@ public class Meterial extends BaseRowModel{
      * 序号
      */
     @ExcelProperty(value = "序号")
-    private int meterialId;
+    private Integer meterialId;
 
     /**
      * 物资编码

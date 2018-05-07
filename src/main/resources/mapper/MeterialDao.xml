@@ -38,10 +38,10 @@
         SELECT * FROM meterial
         WHERE 
         <if test="meterialName != null">
-            meterial_name LIKE '%${meterialName}%' AND
+            meterial_name LIKE "%"#{meterialName}"%" AND
         </if>
         <if test="meterialCode != null">
-            meterial_code LIKE '%${meterialCode}%' AND
+            meterial_code LIKE "%"#{meterialCode}"%" AND
         </if>
         is_update = 0
     </select>

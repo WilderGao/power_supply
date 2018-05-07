@@ -30,16 +30,13 @@
         VALUES
         (#{district}, #{batch}, #{powerSupply},
          #{projectCode}, #{projectName});
-
         SELECT LAST_INSERT_ID();
     </insert>
 
     <!-- 判断这项工程是否存在-->
     <select id="projectExist" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM  project
-        <if test="projectCode != null">
             WHERE project_code = #{projectCode}
-        </if>
     </select>
 
     <!-- 插入一个工程对应的材料详情-->

@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wilder.power_supply.dao.DeviceDao">
+
     <resultMap id="materialMap" type="com.wilder.power_supply.model.Meterial">
         <id property="meterialId" column="meterial_id"/>
         <result property="meterialCode" column="meterial_code"/>
@@ -13,6 +14,11 @@
         <result property="meterialCheck" column="meterial_check"/>
         <result property="meterialAttention" column="meterial_attention"/>
         <result property="num" column="num"/>
+    </resultMap>
+
+    <resultMap id="deviceMap" type="com.wilder.power_supply.model.Device">
+        <id property="deviceId" column="device_id"/>
+        <result property="deviceName" column="device_name"/>
     </resultMap>
 
     <!-- 根据 设备Id 查询对应的材料信息 -->
@@ -31,5 +37,18 @@
         AND device_meterial.device_id = ${deviceId};
     </select>
 
+    <select id="getDeviceList" resultMap="deviceMap">
+        SELECT * FROM  device
+        ORDER BY device_id
+        DESC
+    </select>
+
+    <select id="getDeviceName" resultType="java.lang.String">
+        SELECT device_name FROM
+        device
+        <if test="deviceId != 0">
+            WHERE device_id = #{deviceId}
+        </if>
+    </select>
 
 </mapper>

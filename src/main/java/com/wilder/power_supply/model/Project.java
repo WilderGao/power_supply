@@ -18,7 +18,7 @@ public class Project extends BaseRowModel {
      * 工程Id
      */
     @ExcelProperty(value = "序号")
-    private int projectId;
+    private Integer projectId;
 
     /**
      * 工程所在区局

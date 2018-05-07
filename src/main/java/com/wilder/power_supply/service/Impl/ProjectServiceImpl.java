@@ -31,13 +31,14 @@ public class ProjectServiceImpl implements ProjectService {
     public ResultInfo buildProjectHandler(Project project) throws ProjectException {
         //check if the project complete
         String checkResult = checkProject(project);
-        if (! checkResult.equals(PROJECT_COMPLETE)){
+        if (false){
             throw new ProjectException(StatusEnum.ERROR.getState(), checkResult);
 
         }else {
             //check if projectCode exists in database
             int exist = projectDao.projectExist(project.getProjectCode());
             if (exist != 0){
+                System.out.println(exist+"是否存在");
                 // exist this project , insert fail
                 ResultInfo resultInfo = new ResultInfo(StatusEnum.ERROR.getState(), PROJECT_EXIST, null);
                 return resultInfo;

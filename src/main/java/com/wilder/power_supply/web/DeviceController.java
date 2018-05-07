@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.transform.Result;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,8 +26,9 @@ public class DeviceController {
     private DeviceService deviceService;
 
 
+    @GetMapping(value = "/get")
     public ResultInfo<List<Device>> deviceList(){
-        return null;
+        return deviceService.deviceList();
     }
 
 
@@ -44,8 +44,8 @@ public class DeviceController {
 
     @GetMapping(value = "/detail")
     @ResponseBody
-    public ResultInfo<Device> deviceDetail(@RequestParam("deviceId")int deviceId,
-                                           @RequestParam("deviceName")String deviceName) throws DeviceException {
-        return deviceService.deviceDetailHandler(deviceId, deviceName);
+    public ResultInfo<Device> deviceDetail(@RequestParam("deviceId")int deviceId) throws DeviceException {
+
+        return deviceService.deviceDetailHandler(deviceId);
     }
 }

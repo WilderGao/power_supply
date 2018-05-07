@@ -17,7 +17,7 @@ import java.util.Map;
  * @Discription：
  */
 @RestController
-@RequestMapping(value = "/material")
+@RequestMapping(value = "/meterial")
 @CrossOrigin
 @Slf4j
 public class MaterialController {
@@ -25,12 +25,12 @@ public class MaterialController {
     @Autowired
     private MeterialService materialService;
 
-    @PostMapping(value = "/fuzzy")
+    @GetMapping(value = "/fuzzy")
     @ResponseBody
-    public ResultInfo<List<Meterial>> fuzzySearch(@RequestBody Map<String, String> materialMap) throws MeterialException {
+    public ResultInfo<List<Meterial>> fuzzySearch(@RequestParam("meterialName")String materialName,
+                                                  @RequestParam("meterialCode") String materialCode)
+            throws MeterialException {
 
-        String materialName = materialMap.get("materialName");
-        String materialCode = materialMap.get("materialCode");
         return materialService.searchMaterial(materialCode, materialName);
     }
 

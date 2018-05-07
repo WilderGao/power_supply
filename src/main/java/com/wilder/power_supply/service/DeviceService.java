@@ -6,12 +6,14 @@ import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.model.Device;
 
 import java.io.IOException;
+import java.util.List;
 
 
 /**
- * @author:Wilder Gao
- * @time:2018/5/1
- * @Discription：与设备有关的逻辑接口
+ * @author Wilder Gao
+ * time:2018/5/1
+ * description: 与设备有关的逻辑接口
+ *
  */
 public interface DeviceService {
 
@@ -23,7 +25,7 @@ public interface DeviceService {
      * @return  设备详情
      * @throws DeviceException
      */
-    ResultInfo<Device> deviceDetailHandler(int deviceId, String deviceName) throws DeviceException;
+    ResultInfo<Device> deviceDetailHandler(int deviceId) throws DeviceException;
 
 
     /**
@@ -36,5 +38,10 @@ public interface DeviceService {
     ResultInfo<String> deportDevice(Device device, String excelPath) throws ExcelException, IOException, DeviceException;
 
 
+    /**
+     * 查看设备列表
+     * @return
+     */
+    ResultInfo<List<Device>> deviceList();
 
 }

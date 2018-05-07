@@ -1,7 +1,6 @@
 package com.wilder.power_supply.service;
 
 import com.wilder.power_supply.dto.ResultInfo;
-import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.exception.ProjectException;
 import com.wilder.power_supply.model.Project;
 
@@ -20,7 +19,7 @@ public interface ProjectService {
      * @return
      * @throws ProjectException
      */
-    ResultInfo buildProjectHandler(Project project) throws ProjectException;
+    ResultInfo<String> buildProjectHandler(Project project) throws ProjectException;
 
     /**
      * 获取工程列表，按照首字母排序
