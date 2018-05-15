@@ -35,7 +35,7 @@ public interface DeviceService {
      * @return
      * @throws ExcelException
      */
-    ResultInfo<String> deportDevice(Device device, String excelPath) throws ExcelException, IOException, DeviceException;
+    ResultInfo<String> deportDevice(Device device, String excelPath) throws ExcelException, IOException, DeviceException, InterruptedException;
 
 
     /**

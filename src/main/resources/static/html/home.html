@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>南方电网订购材料网站</title>
+	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../css/nav.css">
+	<style type="text/css">
+		div.main{width: 500px;margin: 70px auto;}
+		input.pro_name{width: 450px;height: 40px;font-size: 18px;}
+		button.create_pro{height: 40px;font-size: 18px;}
+	</style>
+</head>
+<body>
+<div class="nav">
+	<div class="nav_box">
+        <h3>
+        	<a role="button" class="nav-a" href="home.html">首页</a>
+        	<a role="button" class="nav-a" href="device.html">查看设备</a>
+        	<a role="button" class="nav-a" href="historyPro.html">查看历史工程</a>
+        </h3>
+    </div>
+</div>
+<div class="main">
+	<form class="form-horizontal" role="form">
+	    <div class="form-group">
+	        <label for="search_key_input" class="col-sm-2 control-label">工程名称</label>
+	        <div class="col-sm-10">
+	            <input type="text" class="form-control" id="projectName">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label for="district" class="col-sm-2 control-label">区局</label>
+	        <div class="col-sm-10">
+	            <input type="text" class="form-control" id="district">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label for="batch" class="col-sm-2 control-label">批次</label>
+	        <div class="col-sm-10">
+	            <input type="text" class="form-control" id="batch">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label for="powerSupply" class="col-sm-2 control-label">供电所</label>
+	        <div class="col-sm-10">
+	            <input type="text" class="form-control" id="powerSupply">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label for="projectCode" class="col-sm-2 control-label">工程编号</label>
+	        <div class="col-sm-10">
+	            <input type="text" class="form-control" id="projectCode">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <div class="col-sm-offset-2 col-sm-10">
+	            <button type="button" class="btn btn-primary create_pro" id="search_btn">新建工程</button>
+	        </div>
+	    </div>
+	</form>
+</div>
+<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="../js/url.js"></script>
+<script type="text/javascript">
+$(function(){
+	var key1 = $("#projectName");
+	var key2 = $("#district");
+	var key3 = $("#batch");
+	var key4 = $("#powerSupply");
+	var key5 = $("#projectCode");
+	$("#search_btn").click(function(){
+		var namekey = key1.val();
+		var districtkey = key2.val();
+		var batchkey = key3.val();
+		var powerSupplykey = key4.val();
+		var projectCodekey = key5.val();
+		var url = "index.html";
+		if(namekey&&districtkey&&batchkey&&powerSupplykey&&projectCodekey){
+			url = $.UrlUpdateParams(url,"n",namekey);
+			url = $.UrlUpdateParams(url,"d",districtkey);
+			url = $.UrlUpdateParams(url,"b",batchkey);
+			url = $.UrlUpdateParams(url,"po",powerSupplykey);
+			url = $.UrlUpdateParams(url,"pr",projectCodekey);
+			window.location.href = url;
+		}else{
+			alert("请填写完表单");
+		}
+	})
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+.main_box{
+	width: 1200px;
+	margin: 10px auto;
+}
+.stuff_box{
+	overflow: hidden;
+}
+.stuff_box div{
+	float: left;
+	width: 150px;
+}
+div.stuff_name{
+	float: left;
+	width: 400px;
+}
+div.stuff_num{
+	width: 100px;
+	text-align: center;
+}
+div.stuff_in{
+	width: 60px;
+	padding-left: 300px;
+	display: inline-block;
+}
+div.meterialUnit{
+	width: 70px;
+}
+div.stuffmeterialPrice_num{
+	width: 70px;	
+}
+div.meterialCheck{
+	text-align: center;
+}

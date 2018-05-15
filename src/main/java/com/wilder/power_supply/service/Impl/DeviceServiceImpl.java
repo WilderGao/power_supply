@@ -27,7 +27,7 @@ import java.util.List;
 @Slf4j
 @Transactional(rollbackFor = Exception.class)
 public class DeviceServiceImpl implements DeviceService {
-    private static String url = "http://192.168.43.96:8080/device/";
+    private static String url = "http://localhost:8080/device/";
 
     @Autowired
     private DeviceDao deviceDao;
@@ -56,7 +56,7 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public ResultInfo<String> deportDevice(Device device, String excelPath) throws ExcelException, IOException, DeviceException {
+    public ResultInfo<String> deportDevice(Device device, String excelPath) throws ExcelException, IOException, DeviceException, InterruptedException {
 
         //首先判断信息是否为空
         if (null == device || null == device.getDeviceName() || 0 == device.getMeterials().size()){
@@ -71,6 +71,7 @@ public class DeviceServiceImpl implements DeviceService {
 
             ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "OK");
             resultInfo.setInfo(url+device.getDeviceName()+".xls");
+            Thread.sleep(1000);
             return resultInfo ;
         }
     }

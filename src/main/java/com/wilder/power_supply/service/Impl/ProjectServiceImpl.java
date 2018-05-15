@@ -16,9 +16,9 @@ import java.util.List;
 import static com.wilder.power_supply.enums.StatusStatementEnum.*;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/29
- * @Discription：
+ * @author Wilder Gao
+ * time:2018/4/29
+ * Description：
  */
 @Service
 @Slf4j
@@ -45,9 +45,9 @@ public class ProjectServiceImpl implements ProjectService {
 
             }else {
                 // insert into project table
-                int projectId = projectDao.insertNewProject(project);
+                projectDao.insertNewProject(project);
                 //insert into material-project
-                projectDao.meterialDetail(projectId, project.getMeterials());
+                projectDao.meterialDetail(project.getProjectId(), project.getMeterials());
                 ResultInfo resultInfo = new ResultInfo(StatusEnum.OK.getState(), OK);
                 return resultInfo;
             }

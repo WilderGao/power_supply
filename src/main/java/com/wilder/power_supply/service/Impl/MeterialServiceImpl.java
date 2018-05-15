@@ -8,7 +8,6 @@ import com.wilder.power_supply.exception.MeterialException;
 import com.wilder.power_supply.dto.ResultInfo;
 import com.wilder.power_supply.model.Meterial;
 import com.wilder.power_supply.service.MeterialService;
-import com.wilder.power_supply.utils.ExcelUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/14
- * @Discription：与材料有关的逻辑层
+ * @author Wilder Gao
+ * time:2018/4/14
+ * Description：与材料有关的逻辑层
 sd  */
 @Service
 @Slf4j

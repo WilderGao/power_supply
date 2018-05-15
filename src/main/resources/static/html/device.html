@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>南方电网订购材料网站</title>
+	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../css/nav.css">
+	<style type="text/css">
+		div{padding: 0;margin: 0;}
+		.main{width: 1000px;margin: 20px auto 0;}
+		.aDevice{display: block;width: 250px;padding: 10px 0;float: left;}
+		.aDevice a{font-size: 18px;}
+	</style>
+</head>
+<body>
+<div class="nav">
+	<div class="nav_box">
+        <h3>
+        	<a role="button" class="nav-a" href="home.html">首页</a>
+        	<a role="button" class="nav-a" href="device.html">查看设备</a>
+        	<a role="button" class="nav-a" href="historyPro.html">查看历史工程</a>
+        </h3>
+    </div>
+</div>
+<div class="main">
+</div>
+<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="../js/url.js"></script>
+<script type="text/javascript">
+	var mainBox = $(".main");
+	function fillMainData(stuff){
+    	var ul = mainBox;
+    	var len = stuff.length;
+    	var i = 0;
+    	var html = '';
+    	var url;
+    	for(;i<len;i++){
+    		url = $.UrlUpdateParams("detailDe.html","id",stuff[i].deviceId);
+    		html += '<div class="aDevice"><a role="button" class="search-history" href="' + url + '">'
+    		html += stuff[i].deviceName + '</a></div>';
+    	}
+    	ul.html(html);
+    }
+    var allResult = $.getAllDe();
+	var result;	
+	if(allResult.status==200){
+		result = allResult.info;
+		fillMainData(result);
+	}else{
+		fillMainData([]);
+		alert("网络不佳，请刷新页面");
+	}
+</script>
+</body>
+</html>

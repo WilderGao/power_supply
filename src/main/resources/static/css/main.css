@@ -1,0 +1,88 @@
+.main_box{
+	width: 1200px;
+	margin: 10px auto;
+}
+.stuff_box{
+	overflow: hidden;
+}
+.stuff_box div{
+	float: left;
+	width: 130px;
+}
+div.meterialCode{
+	padding-left: 25px;
+	width: 150px;
+}
+div.stuff_name{
+	float: left;
+	width: 430px;
+}
+div.stuff_num{
+	width: 100px;
+	float:right;
+}
+div.meterialUnit, div.stuffmeterialPrice_num{
+	width: 90px;
+}
+div.meterialCheck{
+	width: 130px;
+	text-align: center;
+}
+.count_input{
+	display: inline-block;
+	width: 40px;
+	padding: 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border: 1px solid gray;
+    border-radius: 3px;
+    outline: none;
+    position: relative;
+}
+.select_showBox{
+	width: 500px;
+	background-color: white;
+	border-left: 1px solid gray;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 20;
+}
+.show_stuff_bofy{
+    position: relative;
+    max-height: 400px;
+    padding: 15px;
+    overflow-y: auto;
+}
+.show_stuff_ul{
+	position: relative;
+}
+.show_stuff_box{
+	overflow: hidden;
+}
+div.show_meterialCode{
+	float: left;
+	width: 150px;
+}
+div.show_stuff_name{
+	float: left;
+	width: 200px;
+}
+div.show_stuff_num{
+	width: 100px;
+	float:right;
+}
+
+.footer{
+	height: 50px;
+	padding: 5px 40px;
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: white;
+	border-top: 1px solid gray;
+	z-index: 3;
+	text-align: right;
+}

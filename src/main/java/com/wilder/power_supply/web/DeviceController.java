@@ -5,6 +5,7 @@ import com.wilder.power_supply.exception.DeviceException;
 import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.model.Device;
 import com.wilder.power_supply.service.DeviceService;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/device")
 @CrossOrigin
+@Log
 public class DeviceController {
 
     @Autowired
@@ -32,12 +34,13 @@ public class DeviceController {
     }
 
 
-    @PostMapping(value = "/deport")
+    @PostMapping(value = "/export")
     @ResponseBody
-    public ResultInfo<String> deportDeviceExcel(@RequestBody Device device, HttpServletRequest request) throws ExcelException, DeviceException, IOException {
+    public ResultInfo<String> deportDeviceExcel(@RequestBody Device device, HttpServletRequest request) throws ExcelException, DeviceException, IOException, InterruptedException {
+        log.info(device.toString());
+
         String excelPath = request.getServletContext().getRealPath("/device/" + device.getDeviceName()+".xls");
         ResultInfo<String> resultInfo = deviceService.deportDevice(device, excelPath);
-
         return resultInfo;
     }
 
