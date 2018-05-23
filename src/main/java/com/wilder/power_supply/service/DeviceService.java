@@ -21,7 +21,6 @@ public interface DeviceService {
     /**
      * 根据设备Id获取设备的详细信息
      * @param deviceId      设备Id
-     * @param deviceName    设备名称
      * @return  设备详情
      * @throws DeviceException
      */
@@ -29,11 +28,14 @@ public interface DeviceService {
 
 
     /**
-     * 导出excel表格，返回对应的连接
-     * @param device 设备名称
-     * @param excelPath 导出excel路径
+     *
+     * @param device
+     * @param excelPath
      * @return
      * @throws ExcelException
+     * @throws IOException
+     * @throws DeviceException
+     * @throws InterruptedException
      */
     ResultInfo<String> deportDevice(Device device, String excelPath) throws ExcelException, IOException, DeviceException, InterruptedException;
 

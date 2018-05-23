@@ -55,8 +55,11 @@ public interface ProjectDao {
      */
     List<Project> getProjectList();
 
+
     /**
-     * 获取一个工程的详细信息
+     * 根据工程Id获得详细情况
+     * @param projectId 工程Id
+     * @return
      */
     List<Meterial> getProjectDetail(@Param("projectId") int projectId);
 

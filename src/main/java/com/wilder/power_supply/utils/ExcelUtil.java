@@ -37,6 +37,12 @@ public class ExcelUtil {
     private static List<String> contents = Arrays.asList("   物资编码    ", "    物资名称    ", "    规格型号    ",
             "单位", "单价（隐藏列）", "是否业扩储备物资", "  备注1（隐藏列）  ", "  数量  ");
 
+
+    private static List<String> projectContents = Arrays.asList(
+            "   项目编号   ", "工程名称", " 区局 ", "批次", "  供电所  ",
+            "   材料编码   ", "   材料名称   ", "单位", "单价", "是否业扩","备注信息","数量"
+    );
+
     /**
      * 操作材料 excel 表或者工程表并将数据导入到数据库
      * @param excelPath
@@ -153,5 +159,101 @@ public class ExcelUtil {
         }
     }
 
+    /**
+     * 将工程导出为excel表
+     * @param project 工程
+     * @param excelPath excel路径
+     * @return  excel路径
+     */
+    public static String exportProject(Project project, String excelPath) throws ExcelException, IOException {
+        if (project.getMeterials().size() == 0){
+            throw new ExcelException(StatusEnum.ERROR.getState(), " 材料详情为空 ");
+        }else {
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            //创建excel表格
+            HSSFSheet spreadSheet = workbook.createSheet(project.getProjectName());
+
+            //设置单元格大小
+            spreadSheet.setDefaultColumnWidth(20);
+            spreadSheet.setDefaultRowHeight((short) (30*20));
+
+
+            int rowId = 0 , cellId = 0;
+            //创建第一行，第一行是类型行
+            HSSFRow row = spreadSheet.createRow(rowId++);
+            //设置字体大小和颜色
+            HSSFFont font = workbook.createFont();
+            font.setFontHeightInPoints((short) 10);
+            font.setFontName("微软雅黑");
+            font.setBold(true);
+
+            //设置单元格格式
+            HSSFCellStyle style = workbook.createCellStyle();
+            style.setAlignment(HorizontalAlignment.CENTER);
+            style.setVerticalAlignment(VerticalAlignment.CENTER);
+            style.setFont(font);
+
+            for (String content : projectContents) {
+                Cell cell = row.createCell(cellId++);
+                cell.setCellValue(content);
+            }
+
+            style.setFont(font);
+            int cellNum;
+            for (Meterial material : project.getMeterials()) {
+                cellNum = 0;
+                row = spreadSheet.createRow(rowId ++);
+
+                //将材料的信息插入 excel 单元格中
+                Cell cellProjectCode = row.createCell(cellNum ++);
+                cellProjectCode.setCellValue(project.getProjectCode());
+
+                Cell cellProjectName = row.createCell(cellNum++);
+                cellProjectName.setCellValue(project.getProjectName());
+
+                Cell cellProjectDistinct = row.createCell(cellNum++);
+                cellProjectDistinct.setCellValue(project.getDistrict());
+
+                Cell cellProjectBatch = row.createCell(cellNum++);
+                cellProjectBatch.setCellValue(project.getBatch());
+
+                Cell cellProjectSupply = row.createCell(cellNum++);
+                cellProjectSupply.setCellValue(project.getPowerSupply());
+
+                Cell cellCode = row.createCell(cellNum++);
+                cellCode.setCellValue(material.getMeterialCode());
+
+                Cell cellName = row.createCell(cellNum++);
+                cellName.setCellValue(material.getMeterialName());
+
+                Cell cellUnit = row.createCell(cellNum);
+                cellUnit.setCellValue(material.getMeterialUnit());
+
+                Cell cellPrice = row.createCell(cellNum);
+                cellPrice.setCellValue(material.getMeterialPrice());
+
+                Cell cellCheck = row.createCell(cellNum);
+                cellCheck.setCellValue(material.getMeterialCheck());
+
+                Cell cellAttention = row.createCell(cellNum);
+                cellAttention.setCellValue(material.getMeterialAttention());
+
+                Cell cellNumber = row.createCell(cellNum);
+                cellNumber.setCellValue(material.getNum());
+
+
+            }
+
+            FileOutputStream outputStream = new FileOutputStream(
+                    new File(excelPath)
+            );
+
+            workbook.write(outputStream);
+            outputStream.close();
+            log.info(" 导出完成 ");
+
+            return excelPath;
+        }
+    }
 
 }

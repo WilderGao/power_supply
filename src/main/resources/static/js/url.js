@@ -30,7 +30,7 @@
 (function($) {
 	$.extend({
 		localurl:function(){
-	    	return "http://localhost:8080/";
+	    	return "http://localhost/";
 	    },
 	    createPro:function(json){
 	        var xhr = $.ajax({

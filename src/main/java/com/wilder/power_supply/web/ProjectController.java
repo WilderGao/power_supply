@@ -1,12 +1,20 @@
 package com.wilder.power_supply.web;
 
+import com.google.gson.Gson;
 import com.wilder.power_supply.dto.ResultInfo;
+import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.exception.ProjectException;
 import com.wilder.power_supply.model.Project;
 import com.wilder.power_supply.service.ProjectService;
+import com.wilder.power_supply.utils.BeanUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
@@ -18,10 +26,12 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/project")
 @CrossOrigin
+@Slf4j
 public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
+
 
     /**
      * 创建新工程
@@ -29,11 +39,18 @@ public class ProjectController {
      * @return
      */
     @PostMapping(value = "/build")
-    @ResponseBody
-    public ResultInfo<String> buildProject(@RequestBody Project project) throws ProjectException {
+    public ResultInfo<String> buildProject(@RequestBody Map<String, String> map, HttpServletRequest request) throws ProjectException, IOException, ExcelException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        String sessionId = map.get("sessionId");
+        String district = map.get("district");
+        String batch = map.get("batch");
+        String powerSupply = map.get("powerSupply");
+        String projectCode = map.get("projectCode");
+        String projectName = map.get("projectName");
 
-        System.out.println(project);
-        return projectService.buildProjectHandler(project);
+        Project project = new Project(district, batch, powerSupply, projectCode, projectName);
+
+        String excelPath = request.getServletContext().getRealPath("/project/"+projectName+".xls");
+        return projectService.buildProjectHandler(project, sessionId, excelPath);
     }
 
 
@@ -48,6 +65,11 @@ public class ProjectController {
     @ResponseBody
     public ResultInfo<Project> projectDetail(@RequestParam("projectId") int projectId) throws ProjectException {
         return projectService.projectDetailHandler(projectId);
+    }
+
+    @GetMapping(value = "/export")
+    public ResultInfo<String> exportProject(@RequestParam("projectId") Integer projectId){
+        return null;
     }
 
 }

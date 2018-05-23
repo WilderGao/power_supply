@@ -1,9 +1,11 @@
 package com.wilder.power_supply.service;
 
 import com.wilder.power_supply.dto.ResultInfo;
+import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.exception.ProjectException;
 import com.wilder.power_supply.model.Project;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -14,12 +16,16 @@ import java.util.List;
 public interface ProjectService {
 
     /**
-     * 新建工程逻辑处理
+     * 新建工程
      * @param project
+     * @param sessionId
+     * @param excelPath
      * @return
      * @throws ProjectException
+     * @throws IOException
+     * @throws ExcelException
      */
-    ResultInfo<String> buildProjectHandler(Project project) throws ProjectException;
+    ResultInfo<String> buildProjectHandler(Project project, String sessionId, String excelPath) throws ProjectException, IOException, ExcelException;
 
     /**
      * 获取工程列表，按照首字母排序
@@ -36,4 +42,11 @@ public interface ProjectService {
      * @throws ProjectException
      */
     ResultInfo<Project> projectDetailHandler(int projectId) throws ProjectException;
+
+//    /**
+//     * 导出历史工程
+//     * @param projectId 工程Id
+//     * @return
+//     */
+//    ResultInfo<String> projectExport(int projectId);
 }

@@ -3,6 +3,7 @@ package com.wilder.power_supply.model;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.xml.ws.WebServiceRef;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @Discription：工程类名
  */
 @Data
+@NoArgsConstructor
 public class Project extends BaseRowModel {
     /**
      * 工程Id
@@ -54,4 +56,12 @@ public class Project extends BaseRowModel {
      * 材料列表
      */
     private List<Meterial> meterials;
+
+    public Project(String district, String batch, String powerSupply, String projectCode, String projectName) {
+        this.district = district;
+        this.batch = batch;
+        this.powerSupply = powerSupply;
+        this.projectCode = projectCode;
+        this.projectName = projectName;
+    }
 }

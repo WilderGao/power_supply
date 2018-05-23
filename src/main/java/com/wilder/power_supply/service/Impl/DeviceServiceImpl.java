@@ -27,7 +27,7 @@ import java.util.List;
 @Slf4j
 @Transactional(rollbackFor = Exception.class)
 public class DeviceServiceImpl implements DeviceService {
-    private static String url = "http://localhost:8080/device/";
+    private static String url = "http://120.77.38.183/device/";
 
     @Autowired
     private DeviceDao deviceDao;
