@@ -43,6 +43,8 @@ public class ExcelUtil {
             "   材料编码   ", "   材料名称   ", "单位", "单价", "是否业扩","备注信息","数量"
     );
 
+    private static String url = "http://localhost/project/";
+
     /**
      * 操作材料 excel 表或者工程表并将数据导入到数据库
      * @param excelPath
@@ -226,19 +228,19 @@ public class ExcelUtil {
                 Cell cellName = row.createCell(cellNum++);
                 cellName.setCellValue(material.getMeterialName());
 
-                Cell cellUnit = row.createCell(cellNum);
+                Cell cellUnit = row.createCell(cellNum++);
                 cellUnit.setCellValue(material.getMeterialUnit());
 
-                Cell cellPrice = row.createCell(cellNum);
+                Cell cellPrice = row.createCell(cellNum++);
                 cellPrice.setCellValue(material.getMeterialPrice());
 
-                Cell cellCheck = row.createCell(cellNum);
+                Cell cellCheck = row.createCell(cellNum++);
                 cellCheck.setCellValue(material.getMeterialCheck());
 
-                Cell cellAttention = row.createCell(cellNum);
+                Cell cellAttention = row.createCell(cellNum++);
                 cellAttention.setCellValue(material.getMeterialAttention());
 
-                Cell cellNumber = row.createCell(cellNum);
+                Cell cellNumber = row.createCell(cellNum++);
                 cellNumber.setCellValue(material.getNum());
 
 
@@ -252,7 +254,7 @@ public class ExcelUtil {
             outputStream.close();
             log.info(" 导出完成 ");
 
-            return excelPath;
+            return url+project.getProjectName()+".xls";
         }
     }
 

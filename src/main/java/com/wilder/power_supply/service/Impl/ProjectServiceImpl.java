@@ -53,6 +53,10 @@ public class ProjectServiceImpl implements ProjectService {
             }else {
                 Map<String, List<Meterial>> map = BufferMen.projectMaterialMap;
                 List<Meterial> materials = map.get(sessionId);
+                if (null == materials){
+                    log.error("材料为空");
+                    throw new ProjectException(StatusEnum.ERROR.getState(), "材料为空");
+                }
 
                 if (materials.size() != 0) {
                     project.setMeterials(materials);

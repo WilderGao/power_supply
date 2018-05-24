@@ -6,13 +6,13 @@ import com.wilder.power_supply.enums.StatusEnum;
 import com.wilder.power_supply.exception.MeterialException;
 import com.wilder.power_supply.model.Meterial;
 import com.wilder.power_supply.service.MeterialService;
+import com.wilder.power_supply.utils.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * @author:Wilder Gao
@@ -62,11 +62,16 @@ public class MaterialController {
 
 
     @PostMapping("/addmaterial")
-    public ResultInfo<String> saveMaterialBuffer(@RequestBody Map<String, Object> requestMap) throws MeterialException {
+    public ResultInfo<String> saveMaterialBuffer(@RequestBody Map<String, Object> requestMap) throws MeterialException, IllegalAccessException, InvocationTargetException, InstantiationException {
         String sessionId = (String) requestMap.get("sessionId");
-        List<Meterial> materials = (List<Meterial>) requestMap.get("materials");
+        List<LinkedHashMap> linkedHashMaps = (List<LinkedHashMap>) requestMap.get("materials");
+        List<Meterial> materials = new ArrayList<>();
+        for (LinkedHashMap hashMap : linkedHashMaps) {
+            Meterial meterial = (Meterial) BeanUtil.mapToObject(hashMap,  Meterial.class);
+            materials.add(meterial);
+        }
 
-        if (sessionId.isEmpty()){
+        if (sessionId == null){
             log.info("sessionId为空，没有添加设备直接添加材料");
             String uuid = UUID.randomUUID().toString();
             if (!BufferMen.projectMaterialMap.containsKey(uuid)){
@@ -82,7 +87,6 @@ public class MaterialController {
                     Map<String, List<Meterial>> map = BufferMen.projectMaterialMap;
                     map.get(sessionId).addAll(materials);
 
-                    map.forEach((s, meterials) -> System.out.println(meterials));
                 }
                 ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
                 resultInfo.setInfo(sessionId);
