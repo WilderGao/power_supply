@@ -10,9 +10,9 @@ import java.util.List;
 
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/14
- * @Discription：
+ * @author Wilder Gao
+ * time:2018/4/14
+ * Description：
  */
 @Mapper
 @Repository

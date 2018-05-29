@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 /**
- * @author:Wilder Gao
- * @time:2018/5/1
- * @Discription：设备处理类
+ * @author Wilder Gao
+ * time:2018/5/1
+ * Description：设备处理类
  */
 @Mapper
 @Repository

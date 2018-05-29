@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/29
- * @Discription：工程引发的异常
+ * @author Wilder Gao
+ * time:2018/4/29
+ * Discription：工程引发的异常
  */
 @Data
 @AllArgsConstructor

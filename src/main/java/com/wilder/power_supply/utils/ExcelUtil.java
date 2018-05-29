@@ -19,9 +19,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/14
- * @Discription：操作excel表格工具类
+ * @author Wilder Gao
+ * time:2018/4/14
+ * Description：操作excel表格工具类
  */
 @Slf4j
 public class ExcelUtil {
@@ -43,7 +43,7 @@ public class ExcelUtil {
             "   材料编码   ", "   材料名称   ", "单位", "单价", "是否业扩","备注信息","数量"
     );
 
-    private static String url = "http://localhost/project/";
+    private static String url = "http://localhost/";
 
     /**
      * 操作材料 excel 表或者工程表并将数据导入到数据库
@@ -165,9 +165,10 @@ public class ExcelUtil {
      * 将工程导出为excel表
      * @param project 工程
      * @param excelPath excel路径
+     * @param ifNew 是否为新工程
      * @return  excel路径
      */
-    public static String exportProject(Project project, String excelPath) throws ExcelException, IOException {
+    public static String exportProject(Project project, String excelPath, boolean ifNew) throws ExcelException, IOException {
         if (project.getMeterials().size() == 0){
             throw new ExcelException(StatusEnum.ERROR.getState(), " 材料详情为空 ");
         }else {
@@ -254,7 +255,11 @@ public class ExcelUtil {
             outputStream.close();
             log.info(" 导出完成 ");
 
-            return url+project.getProjectName()+".xls";
+            if (ifNew) {
+                return url + "/project/"+project.getProjectName() + ".xls";
+            }else {
+                return url + "/history/"+project.getProjectName() + ".xls";
+            }
         }
     }
 

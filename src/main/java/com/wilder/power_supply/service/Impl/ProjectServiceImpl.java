@@ -66,7 +66,7 @@ public class ProjectServiceImpl implements ProjectService {
                     projectDao.meterialDetail(project.getProjectId(), project.getMeterials());
 
                     //导出excel表格并返回连接
-                    String path = ExcelUtil.exportProject(project, excelPath);
+                    String path = ExcelUtil.exportProject(project, excelPath, true);
                     ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), OK);
                     resultInfo.setInfo(path);
                     return resultInfo;
@@ -86,8 +86,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (projects.size() == 0){
             throw new ProjectException(StatusEnum.ERROR.getState(), " 工程为空 ");
         }else {
-            ResultInfo<List<Project>> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "OK", projects);
-            return resultInfo;
+            return new ResultInfo<>(StatusEnum.OK.getState(), "OK", projects);
         }
     }
 
@@ -109,22 +108,36 @@ public class ProjectServiceImpl implements ProjectService {
                 throw new ProjectException(StatusEnum.ERROR.getState(), "获取工程失败");
             }
             project.setMeterials(materials);
-            ResultInfo<Project> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(),
+            return new ResultInfo<>(StatusEnum.OK.getState(),
                     "OK", project);
-            return resultInfo;
+
         }
     }
 
 
-//    @Override
-//    public ResultInfo<String> projectExport(int projectId) throws ProjectException {
-//        if (projectId <= 0){
-//            log.error("工程 Id 出错");
-//            throw new ProjectException(StatusEnum.ERROR.getState(), "工程 Id 出错");
-//        }else {
-//
-//        }
-//    }
+
+    @Override
+    public ResultInfo<String> projectExport(int projectId, String excelPathContent)
+            throws ProjectException, IOException, ExcelException {
+        if (projectId <= 0){
+            log.error("工程 Id 出错");
+            throw new ProjectException(StatusEnum.ERROR.getState(), "工程 Id 出错");
+        }else {
+            Project project = projectDao.getProjectById(projectId);
+            project.setMeterials(projectDao.getProjectDetail(projectId));
+            if (checkProject(project).equals(PROJECT_COMPLETE)){
+                String excelName = project.getProjectName()+".xls";
+                String excelPath = ExcelUtil.exportProject(project, excelPathContent+excelName, false);
+                ResultInfo<String> resultInfo = new ResultInfo<>();
+                resultInfo.setStatus(StatusEnum.OK.getState());
+                resultInfo.setMessage("导出成功");
+                resultInfo.setInfo(excelPath);
+                return resultInfo;
+            }else {
+                throw new ProjectException(StatusEnum.ERROR.getState(), "导出excel出错");
+            }
+        }
+    }
 
     /**
      * 检验发送的格式是否有问题

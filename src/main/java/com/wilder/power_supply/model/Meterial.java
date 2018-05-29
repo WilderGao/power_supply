@@ -5,9 +5,9 @@ import com.alibaba.excel.metadata.BaseRowModel;
 import lombok.Data;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/14
- * @Discription：材料实体类
+ * @author Wilder Gao
+ * time:2018/4/14
+ * Description：材料实体类
  */
 @Data
 public class Meterial extends BaseRowModel{

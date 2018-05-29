@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/29
- * @Discription：统一异常处理类
+ * @author Wilder Gao
+ * time:2018/4/29
+ * Description：统一异常处理类
  */
 @ControllerAdvice
 public class AllExceptionHandler {

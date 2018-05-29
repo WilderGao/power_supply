@@ -15,9 +15,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/29
- * @Discription：
+ * @author Wilder Gao
+ * time:2018/4/29
+ * Description：
  */
 @RestController
 @RequestMapping(value = "/meterial")

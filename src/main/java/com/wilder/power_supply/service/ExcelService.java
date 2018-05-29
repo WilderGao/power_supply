@@ -3,9 +3,9 @@ package com.wilder.power_supply.service;
 import com.wilder.power_supply.exception.ExcelException;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/30
- * @Discription：
+ * @author Wilder Gao
+ * time:2018/4/30
+ * Description：
  */
 public interface ExcelService {
 

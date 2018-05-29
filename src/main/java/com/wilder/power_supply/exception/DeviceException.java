@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author:Wilder Gao
- * @time:2018/5/1
- * @Discription：
+ * @author Wilder Gao
+ * time:2018/5/1
+ * Description：
  */
 @Data
 @AllArgsConstructor

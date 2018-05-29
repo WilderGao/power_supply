@@ -3,9 +3,9 @@ package com.wilder.power_supply.exception;
 import lombok.*;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/20
- * @Discription：
+ * @author Wilder Gao
+ * time:2018/4/20
+ * Description：
  */
 @Data
 @AllArgsConstructor

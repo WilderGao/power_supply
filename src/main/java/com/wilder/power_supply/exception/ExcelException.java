@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/29
- * @Discription：处理导入excel出现的异常
+ * @author Wilder Gao
+ * time:2018/4/29
+ * Description：处理导入excel出现的异常
  */
 @Data
 @NoArgsConstructor

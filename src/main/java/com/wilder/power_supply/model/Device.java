@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * @author:Wilder Gao
- * @time:2018/5/1
- * @Discription：
+ * @author Wilder Gao
+ * time:2018/5/1
+ * Description：
  */
 @Data
 @AllArgsConstructor

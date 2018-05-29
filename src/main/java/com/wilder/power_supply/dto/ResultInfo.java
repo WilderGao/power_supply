@@ -3,9 +3,9 @@ package com.wilder.power_supply.dto;
 import lombok.*;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/20
- * @Discription：返回格式类
+ * @author Wilder Gao
+ * time:2018/4/20
+ * Description：返回格式类
  */
 @Data
 @AllArgsConstructor

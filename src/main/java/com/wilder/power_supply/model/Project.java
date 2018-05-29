@@ -9,9 +9,9 @@ import javax.xml.ws.WebServiceRef;
 import java.util.List;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/29
- * @Discription：工程类名
+ * @author Wilder Gao
+ * time:2018/4/29
+ * Description：工程类名
  */
 @Data
 @NoArgsConstructor

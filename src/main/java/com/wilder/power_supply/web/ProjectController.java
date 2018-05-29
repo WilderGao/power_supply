@@ -1,14 +1,11 @@
 package com.wilder.power_supply.web;
 
-import com.google.gson.Gson;
 import com.wilder.power_supply.dto.ResultInfo;
 import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.exception.ProjectException;
 import com.wilder.power_supply.model.Project;
 import com.wilder.power_supply.service.ProjectService;
-import com.wilder.power_supply.utils.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/29
- * @Discription：与工程有关的控制器
+ * @author Wilder Gao
+ * time:2018/4/29
+ * Description：与工程有关的控制器
  */
 @RestController
 @RequestMapping(value = "/project")
@@ -67,9 +64,11 @@ public class ProjectController {
         return projectService.projectDetailHandler(projectId);
     }
 
-    @GetMapping(value = "/export")
-    public ResultInfo<String> exportProject(@RequestParam("projectId") Integer projectId){
-        return null;
+    @GetMapping(value = "/export/{id}")
+    public ResultInfo<String> exportProject(@PathVariable("id") Integer projectId, HttpServletRequest request)
+            throws ExcelException, ProjectException, IOException {
+        String excelPathContent = request.getServletContext().getRealPath("/history/");
+        return projectService.projectExport(projectId, excelPathContent);
     }
 
 }

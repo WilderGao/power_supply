@@ -1,6 +1,5 @@
 package com.wilder.power_supply.service.Impl;
 
-import com.alibaba.druid.support.spring.stat.annotation.Stat;
 import com.wilder.power_supply.dao.DeviceDao;
 import com.wilder.power_supply.dto.ResultInfo;
 import com.wilder.power_supply.enums.StatusEnum;

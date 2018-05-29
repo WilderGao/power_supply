@@ -7,9 +7,9 @@ import com.wilder.power_supply.model.Meterial;
 import java.util.List;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/14
- * @Discription：与材料有关的服务类
+ * @author Wilder Gao
+ * time:2018/4/14
+ * Description：与材料有关的服务类
  */
 public interface MeterialService {
 

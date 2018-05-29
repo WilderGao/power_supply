@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/29
- * @Discription：
+ * @author Wilder Gao
+ * time:2018/4/29
+ * Description：
  */
 public interface ProjectService {
 
@@ -43,10 +43,16 @@ public interface ProjectService {
      */
     ResultInfo<Project> projectDetailHandler(int projectId) throws ProjectException;
 
-//    /**
-//     * 导出历史工程
-//     * @param projectId 工程Id
-//     * @return
-//     */
-//    ResultInfo<String> projectExport(int projectId);
+    /**
+     *
+     * 导出历史工程
+     * @param projectId 工程Id
+     * @param excelPathContent excel目录
+     * @return 返回下载路径
+     * @throws ProjectException
+     * @throws IOException
+     * @throws ExcelException
+     */
+    ResultInfo<String> projectExport(int projectId, String excelPathContent)
+            throws ProjectException, IOException, ExcelException;
 }

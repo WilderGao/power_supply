@@ -14,9 +14,9 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/29
- * @Discription：阿里巴巴连接池配置信息
+ * @author Wilder Gao
+ * time:2018/4/29
+ * Description：阿里巴巴连接池配置信息
  */
 @Configuration
 public class DruidConfig {

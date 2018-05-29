@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * @author:Wilder Gao
- * @time:2018/4/29
- * @Discription：与工程有关的数据库操作
+ * @author Wilder Gao
+ * time:2018/4/29
+ * Description：与工程有关的数据库操作
  */
 @Mapper
 @Repository
