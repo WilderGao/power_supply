@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>南方电网订购材料网站</title>
+	<title>配网工程设计材料清册网站</title>
 	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="../css/nav.css">
 	<style type="text/css">
@@ -75,13 +75,24 @@ $(function(){
 		var batchkey = key3.val();
 		var powerSupplykey = key4.val();
 		var projectCodekey = key5.val();
-		var url = "index.html";
+		var url = "selectDevice.html";
+		var data = {};
 		if(namekey&&districtkey&&batchkey&&powerSupplykey&&projectCodekey){
-			url = $.UrlUpdateParams(url,"n",namekey);
-			url = $.UrlUpdateParams(url,"d",districtkey);
-			url = $.UrlUpdateParams(url,"b",batchkey);
-			url = $.UrlUpdateParams(url,"po",powerSupplykey);
-			url = $.UrlUpdateParams(url,"pr",projectCodekey);
+			data = {
+			    "projectName":namekey,
+			    "district":districtkey,
+			    "batch":batchkey,
+			    "powerSupply":powerSupplykey,
+			    "projectCode":projectCodekey,
+			}
+			$.save("project",JSON.stringify(data));
+			// url = $.UrlUpdateParams(url,"n",namekey);
+			// url = $.UrlUpdateParams(url,"d",districtkey);
+			// url = $.UrlUpdateParams(url,"b",batchkey);
+			// url = $.UrlUpdateParams(url,"po",powerSupplykey);
+			// url = $.UrlUpdateParams(url,"pr",projectCodekey);
+			// console.log(url);
+			// console.log($.Request("n"));
 			window.location.href = url;
 		}else{
 			alert("请填写完表单");

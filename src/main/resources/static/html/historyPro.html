@@ -13,13 +13,14 @@
 		div.nav_box{width: 1000px;margin: 10px auto;}
 		.history_box{width: 1200px;margin: 10px auto;}
 		.stuff_box{overflow: hidden;}
-		.stuff_box div{float: left;}
-		div.projectName{width: 500px;}
+		.stuff_box div{display: inline-block;}
+		div.projectName{width: 470px;}
 		div.projectCode{width: 180px;}
 		div.powerSupply{width: 100px;}
 		div.district{width: 100px;}
 		div.batch{width: 80px;text-align: center;}
-		div.see{width: 120px;float:right;}
+		div.see{width: 200px;}
+		div.see input{margin-right: 10px;}
 	</style>
 </head>
 <body>
@@ -35,30 +36,11 @@
 </div>
 <div class="history_box">
 	<ul class="list-group stuff_ul">
-	    <li class="list-group-item active">
-	    	<div class="stuff_box">
-	    		<div class="projectName">工程名称</div>
-	    		<div class="projectCode">工程编号</div>
-	    		<div class="powerSupply">供电所</div>
-				<div class="district">区局</div>
-				<div class="batch">批次</div>
-				<div class="see"><button type="button" class="btn btn-default" id="see_detail">查看工程详情</button></div>
-	    	</div>
-	    </li>
-	    <li class="list-group-item">
-	    	<div class="stuff_box">
-	    		<div class="projectName">工程名称</div>
-	    		<div class="projectCode">工程编号</div>
-	    		<div class="powerSupply">供电所</div>
-				<div class="district">区局</div>
-				<div class="batch">批次</div>
-				<div class="see"><button type="button" class="btn btn-default" id="see_detail">查看工程详情</button></div>
-	    	</div>
-	    </li>
 	</ul>
 </div>
 <script type="text/javascript">
-function fillMainData(stuff){
+$(function(){
+	function fillMainData(stuff){
     	var ul = $(".stuff_ul");
     	var len = stuff.length;
     	var i = 0;
@@ -69,8 +51,9 @@ function fillMainData(stuff){
     		html += stuff[i].projectCode + '</div><div class="powerSupply">';
     		html += stuff[i].powerSupply + '</div><div class="district">';
     		html += stuff[i].district + '</div><div class="batch">';
-    		html += stuff[i].batch + '</div><div class="see"><input class="btn btn-primary" type="button" value="查看工程详情" data-id="';
-    		html += stuff[i].projectId+ '"></div></div></li>';
+    		html += stuff[i].batch + '</div><div class="see"><input class="btn btn-primary" type="button" value="导出工程" data-id="';
+    		html += stuff[i].projectId+ '">';
+    		html += '<a role="button" class="btn btn-primary" href="detailPro.html?id=' + stuff[i].projectId + '">查看材料</a></div></div></li>';
     	}
     	ul.html(html);
     }
@@ -80,7 +63,6 @@ function fillMainData(stuff){
 		result = allResult.info;
 		fillMainData(result);
 	}else{
-		fillMainData([]);
 		alert("网络不佳，请刷新页面");
 	}
 	var mainBox = $(".history_box");
@@ -89,11 +71,15 @@ function fillMainData(stuff){
 		if(ev.target.nodeName.toLowerCase() == "input"){
 			dataId = parseInt(target.attr("data-id"));
 			console.log(dataId);
-			url = $.UrlUpdateParams("detailPro.html","id",dataId);
-			console.log(url)
-			window.location.href = url;
+			var re = $.exportPro(dataId);
+			if(re.status==200){
+				window.location.href = re.info;
+			}else{
+				alert("下载失败，请稍后再试");
+			}
 		}
 	});
+})
 </script>
 </body>
 </html>

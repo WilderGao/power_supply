@@ -1,5 +1,4 @@
 package com.wilder.power_supply.service.Impl;
-
 import com.wilder.power_supply.dao.DeviceDao;
 import com.wilder.power_supply.dto.ResultInfo;
 import com.wilder.power_supply.enums.StatusEnum;
@@ -70,7 +69,8 @@ public class DeviceServiceImpl implements DeviceService {
 
             ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "OK");
             resultInfo.setInfo(url+device.getDeviceName()+".xls");
-            Thread.sleep(1000);
+            Thread.sleep(3000);
+
             return resultInfo ;
         }
     }
@@ -80,8 +80,7 @@ public class DeviceServiceImpl implements DeviceService {
         List<Device> devices = deviceDao.getDeviceList();
         if (0 == devices.size()){
             log.info("没有设备信息");
-            ResultInfo<List<Device>> resultInfo = new ResultInfo<>(StatusEnum.ERROR.getState(), "没有设备信息");
-            return resultInfo;
+            return new ResultInfo<>(StatusEnum.ERROR.getState(), "没有设备信息");
         }else {
             ResultInfo<List<Device>> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "OK");
             resultInfo.setInfo(devices);

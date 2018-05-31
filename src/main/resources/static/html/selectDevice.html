@@ -9,7 +9,8 @@
 		div{padding: 0;margin: 0;}
 		.main{width: 1000px;margin: 20px auto 0;}
 		.aDevice{display: block;width: 250px;padding: 10px 0;float: left;}
-		.aDevice a{font-size: 18px;}
+		span.device_name{font-size: 18px;}
+		div.btn_div{clear: both;}
 	</style>
 </head>
 <body>
@@ -33,17 +34,17 @@ $(function(){
     	var ul = mainBox;
     	var len = stuff.length;
     	var i = 0;
-    	var html = '';
+    	var html = '<div class="title_div"><h3>请选择材料</h3></div>';
     	var url;
     	for(;i<len;i++){
     		url = $.UrlUpdateParams("detailDe.html","id",stuff[i].deviceId);
-    		html += '<div class="aDevice"><a role="button" class="search-history" href="' + url + '">'
-    		html += stuff[i].deviceName + '</a></div>';
+    		html += '<div class="aDevice"><input type="checkbox" data-id="' + stuff[i].deviceId + '"><span class="device_name">' + stuff[i].deviceName + '</span></div>'
     	}
+    	html += '<div class="btn_div"><button type="button" class="btn btn-primary" id="addDevice">添加设备</button></div>';
     	ul.html(html);
     }
     var allResult = $.getAllDe();
-	var result;	
+	var result;
 	if(allResult.status==200){
 		result = allResult.info;
 		fillMainData(result);
@@ -51,8 +52,19 @@ $(function(){
 		fillMainData([]);
 		alert("网络不佳，请刷新页面");
 	}
+	$("#addDevice").click(function(){
+		var checkbox = $('input:checked');
+		var deviceArr = [];
+		checkbox.each(function(i){
+			var value = checkbox.eq(i).attr('data-id');
+			deviceArr.push(value);
+		})
+		$.delete('deviceId');
+		var deviceId = deviceArr.join(',');
+		$.save('deviceId',deviceId);
+		window.location.href = 'selectDeviceNum.html';
+	})
 })
-	
 </script>
 </body>
 </html>

@@ -6,6 +6,14 @@
 	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="../css/main.css">
 	<link rel="stylesheet" type="text/css" href="../css/nav.css">
+	<style type="text/css">
+		div.stuff_in{
+			width: 60px;
+			padding-left: 300px;
+			display: inline-block;
+		/*	float:right;*/
+		}
+	</style>
 </head>
 <body>
 <div class="nav">
@@ -15,6 +23,9 @@
         	<a role="button" class="nav-a" href="device.html">查看设备</a>
         	<a role="button" class="nav-a" href="historyPro.html">查看历史工程</a>
         </h3>
+        <div class="stuff_in">
+			<a class="btn btn-primary" id="output">导出Excel</a>
+		</div>
     </div>
 </div>
 <div class="main_box">
@@ -49,13 +60,25 @@ $(function(){
     var id = $.Request("id");
     var allResult = $.getPro(id);
 	var result;	
-	if(allResult.status!="404"){
-		result = allResult.info.meterials;
-		fillMainData(result);
+	if(allResult.status==200){
+		if(allResult.info==null){
+			alert("该工程没有内容");
+		}else{
+			result = allResult.info.meterials;
+			fillMainData(result);		
+		}
 	}else{
-		fillMainData([]);
+		// fillMainData([]);
 		alert("网络不佳，请刷新页面");
 	}
+	$("#output").click(function(){
+		var re = $.exportPro(id);
+		if(re.status==200){
+			window.location.href = re.info;
+		}else{
+			alert("下载失败，请稍后再试");
+		}
+	})
 })
 </script>
 </body>

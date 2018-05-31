@@ -8,12 +8,11 @@
 	<link rel="stylesheet" type="text/css" href="../css/nav.css">
 	<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 	<script type="text/javascript" src="../js/url.js"></script>
-	<script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>
 	<script type="text/javascript" src="../js/mian.js"></script>
 	<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
+<!-- 导航条 -->
 <div class="nav">
 	<div class="nav_box">
 		<h3>
@@ -41,6 +40,8 @@
         </div>
 	</div>
 </div>
+
+<!-- 查看所有材料或者完成的模态框 -->
 <div id="modal_look" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -54,11 +55,13 @@
             </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-                <input class="btn btn-primary modal_add" type="button" value="添加">
+                <!--<input class="btn btn-primary modal_add" type="button" value="添加">-->
             </div>
         </div>
     </div>
 </div>
+
+<!-- 修改数量的模态框 -->
 <div class="modal fade" id="mymodal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -77,6 +80,7 @@
 		</div>
 	</div>
 </div>
+
 <div class="main_box">
 	<ul class="list-group stuff_ul">
 	</ul>

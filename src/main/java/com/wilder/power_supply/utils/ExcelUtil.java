@@ -43,7 +43,7 @@ public class ExcelUtil {
             "   材料编码   ", "   材料名称   ", "单位", "单价", "是否业扩","备注信息","数量"
     );
 
-    private static String url = "http://localhost/";
+    private static String url = "http://120.77.38.183/";
 
     /**
      * 操作材料 excel 表或者工程表并将数据导入到数据库
@@ -203,6 +203,7 @@ public class ExcelUtil {
 
             style.setFont(font);
             int cellNum;
+
             for (Meterial material : project.getMeterials()) {
                 cellNum = 0;
                 row = spreadSheet.createRow(rowId ++);
@@ -256,9 +257,9 @@ public class ExcelUtil {
             log.info(" 导出完成 ");
 
             if (ifNew) {
-                return url + "/project/"+project.getProjectName() + ".xls";
+                return url + "project/"+project.getProjectName() + ".xls";
             }else {
-                return url + "/history/"+project.getProjectName() + ".xls";
+                return url + "history/"+project.getProjectName() + ".xls";
             }
         }
     }

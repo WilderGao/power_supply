@@ -35,7 +35,7 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectDao projectDao;
 
     @Override
-    public ResultInfo buildProjectHandler(Project project, String sessionId, String excelPath) throws ProjectException, IOException, ExcelException {
+    public ResultInfo buildProjectHandler(Project project, String sessionId, String excelPath) throws ProjectException, IOException, ExcelException, InterruptedException {
         //check if the project complete
         String checkResult = checkProject(project);
         if (!checkResult.equals(PROJECT_COMPLETE)){
@@ -45,7 +45,7 @@ public class ProjectServiceImpl implements ProjectService {
             //check if projectCode exists in database
             int exist = projectDao.projectExist(project.getProjectCode());
             if (exist != 0){
-                System.out.println(exist+"是否存在");
+                log.error("==== 该工程已经存在 ====");
                 // exist this project , insert fail
                 ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.ERROR.getState(), PROJECT_EXIST);
                 return resultInfo;
@@ -54,10 +54,11 @@ public class ProjectServiceImpl implements ProjectService {
                 Map<String, List<Meterial>> map = BufferMen.projectMaterialMap;
                 List<Meterial> materials = map.get(sessionId);
                 if (null == materials){
-                    log.error("材料为空");
-                    throw new ProjectException(StatusEnum.ERROR.getState(), "材料为空");
+                    log.error("==== 材料为空 ====");
+                    ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.ERROR.getState(), "没有找到与这个工程有关的材料");
+                    resultInfo.setInfo("没有找到与这个工程有关的材料");
+                    return resultInfo;
                 }
-
                 if (materials.size() != 0) {
                     project.setMeterials(materials);
                     // insert into project table
@@ -69,6 +70,8 @@ public class ProjectServiceImpl implements ProjectService {
                     String path = ExcelUtil.exportProject(project, excelPath, true);
                     ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), OK);
                     resultInfo.setInfo(path);
+
+                    Thread.sleep(4000);
                     return resultInfo;
                 }else {
                     log.error("材料为空");
@@ -98,9 +101,10 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ProjectException(StatusEnum.ERROR.getState(), "工程 Id 出错");
         }else {
             List<Meterial> materials = projectDao.getProjectDetail(projectId);
+            log.info("projectId 为："+projectId);
             if (materials.size() == 0){
                 log.error("详细材料为空");
-                throw new ProjectException(StatusEnum.ERROR.getState(), "详细材料为空");
+                return new ResultInfo<>(StatusEnum.OK.getState(), "详细材料为空");
             }
             Project project = projectDao.getProjectById(projectId);
             if (project == null) {
@@ -118,13 +122,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ResultInfo<String> projectExport(int projectId, String excelPathContent)
-            throws ProjectException, IOException, ExcelException {
+            throws ProjectException, IOException, ExcelException, InterruptedException {
         if (projectId <= 0){
             log.error("工程 Id 出错");
             throw new ProjectException(StatusEnum.ERROR.getState(), "工程 Id 出错");
         }else {
             Project project = projectDao.getProjectById(projectId);
             project.setMeterials(projectDao.getProjectDetail(projectId));
+            if (project.getMeterials() == null || project.getMeterials().size() == 0){
+                return new ResultInfo<>(StatusEnum.OK.getState(), "材料为空");
+
+            }
             if (checkProject(project).equals(PROJECT_COMPLETE)){
                 String excelName = project.getProjectName()+".xls";
                 String excelPath = ExcelUtil.exportProject(project, excelPathContent+excelName, false);
@@ -132,6 +140,8 @@ public class ProjectServiceImpl implements ProjectService {
                 resultInfo.setStatus(StatusEnum.OK.getState());
                 resultInfo.setMessage("导出成功");
                 resultInfo.setInfo(excelPath);
+
+                Thread.sleep(3000);
                 return resultInfo;
             }else {
                 throw new ProjectException(StatusEnum.ERROR.getState(), "导出excel出错");

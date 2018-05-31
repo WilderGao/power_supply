@@ -25,7 +25,7 @@ public interface ProjectService {
      * @throws IOException
      * @throws ExcelException
      */
-    ResultInfo<String> buildProjectHandler(Project project, String sessionId, String excelPath) throws ProjectException, IOException, ExcelException;
+    ResultInfo<String> buildProjectHandler(Project project, String sessionId, String excelPath) throws ProjectException, IOException, ExcelException, InterruptedException;
 
     /**
      * 获取工程列表，按照首字母排序
@@ -54,5 +54,5 @@ public interface ProjectService {
      * @throws ExcelException
      */
     ResultInfo<String> projectExport(int projectId, String excelPathContent)
-            throws ProjectException, IOException, ExcelException;
+            throws ProjectException, IOException, ExcelException, InterruptedException;
 }

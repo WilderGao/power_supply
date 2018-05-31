@@ -33,6 +33,7 @@ public class MaterialController {
     public ResultInfo<List<Meterial>> fuzzySearch(@RequestParam("meterialName")String materialName,
                                                   @RequestParam("meterialCode") String materialCode)
             throws MeterialException {
+        log.info(" ==== 模糊搜索材料 ==== ");
 
         return materialService.searchMaterial(materialCode, materialName);
     }
@@ -46,7 +47,8 @@ public class MaterialController {
     @PostMapping("/adddevice")
     @ResponseBody
     public ResultInfo<String> saveBuffer(@RequestBody Map<String, List<Meterial>> map) throws MeterialException {
-        List<Meterial> meterials = map.get("materials");
+        log.info("===== 将设备中的材料放入缓存 =====");
+        List<Meterial> meterials = map.get("meterials");
         if (meterials == null || meterials.size() == 0){
             throw new MeterialException(StatusEnum.ERROR.getState(), "材料为空");
         }else {
@@ -62,9 +64,12 @@ public class MaterialController {
 
 
     @PostMapping("/addmaterial")
+    @ResponseBody
     public ResultInfo<String> saveMaterialBuffer(@RequestBody Map<String, Object> requestMap) throws MeterialException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        log.info("==== 添加材料信息 ====");
         String sessionId = (String) requestMap.get("sessionId");
-        List<LinkedHashMap> linkedHashMaps = (List<LinkedHashMap>) requestMap.get("materials");
+        List<LinkedHashMap> linkedHashMaps = (List<LinkedHashMap>) requestMap.get("meterials");
+        log.info("sessionId为："+sessionId);
         List<Meterial> materials = new ArrayList<>();
         for (LinkedHashMap hashMap : linkedHashMaps) {
             Meterial meterial = (Meterial) BeanUtil.mapToObject(hashMap,  Meterial.class);

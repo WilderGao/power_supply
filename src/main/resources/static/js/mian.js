@@ -1,4 +1,7 @@
 $(function(){
+	// 获取数据并将数据填入ul中
+	// allResult存储所有数据
+	// result存储当前页面填充的的数据
 	function fillMainData(stuff){
     	var ul = $(".stuff_ul");
     	var len = stuff.length;
@@ -28,16 +31,23 @@ $(function(){
 		fillMainData([]);
 		alert("网络不佳，请刷新页面");
 	}
+
+	// 修改某个材料的数量，保存到seletejson
+	// selectjson：选择的材料，dataId：某个数据在页面中的index
+	// local：某个数据在select中的index
     var selectjson = [];var dataId = '';var local = -1;
 	var mainBox = $(".main_box");
 	var inp = $("#count");
+	// 模态框弹出和消失
 	$(".modal_add_btn").click(function(ev){
     	$("#mymodal").modal("toggle");
     });
+    // 查找该材料是否被订过
     mainBox.click(function(ev){
 		var target = $(ev.target);
 		if(ev.target.nodeName.toLowerCase() == "input"){
 			dataId = parseInt(target.attr("data-id"));
+			// 遍历select，查找是否有该项目
 			var i = 0,len = selectjson.length;
 			inp.val('');
 			for(local = -1;i<len;i++){
@@ -49,6 +59,7 @@ $(function(){
 			}
 		}
 	});
+    // 提交添加的数据到selete
 	inp.keydown(function(e){
 		if(e.keyCode==13){
 			$('#comfirm').trigger("click");
@@ -57,6 +68,7 @@ $(function(){
 	});
 	$("#comfirm").click(function(){
 		var value = parseInt(inp.val());
+		// 新添加且value不为0
 		if(local==-1&&value>0){
 			var json = {
 				"meterialId":result[dataId].meterialId,
@@ -70,11 +82,16 @@ $(function(){
 			}
 			selectjson.push(json);
 		}else if(local!=-1&&value>0){
+			// 修改
 			selectjson[local].num = value;
 		}else if(local!=-1){
+			// 删除
 			selectjson.splice(local,1);
 		}
+		// console.log(selectjson);
 	})
+
+	// 查看已选择的材料时，填充所有已选择的材料
 	function fillSeleteData(stuff){
     	var ul = $(".show_stuff_ul");
     	var len = stuff.length;
@@ -95,6 +112,9 @@ $(function(){
 			fillSeleteData(selectjson);
 		}
 	});
+
+
+	// 修改查找方式
 	var searchType = 1;	
 	$("#searchType_ul").click(function(ev){
 		var target = $(ev.target);
@@ -108,6 +128,7 @@ $(function(){
 			}
 		}
 	})
+	// 搜索
 	$("#search_key_input").keydown(function(e){
 		if(e.keyCode==13){
 			$('#search_btn').trigger("click");
@@ -130,52 +151,33 @@ $(function(){
 				fillMainData([]);
 				alert("网络不佳，请稍后重试");
 			}
-		}
+		}	
+		// 填充搜索后的内容
 		fillMainData(result);
 	})
-	var name = $.Request("n");
-	var district = $.Request("d");
-	var batch = $.Request("b");
-	var powerSupply = $.Request("po");
-	var projectCode = $.Request("pr");
+	var proData = JSON.parse($.search("project"));
+	var sessionId = $.search("sessionId");
+	proData.sessionId = sessionId;
 	var finishBtn = $("#finish");
 	finishBtn.click(function(){
 		var data = {
-		    "projectName":name,
-		    "district":district,
-		    "batch":batch,
-		    "powerSupply":powerSupply,
-		    "projectCode":projectCode,
-		    "meterials":selectjson
+			"sessionId": sessionId,
+			"meterials":selectjson
 		}
-		var res = $.createPro(data);
-		exportExcel(data);
-	})
-	function exportExcel(data){
-		var arr = [];
-		var data1 = {};
-		var i = 0;var len = data.meterials.length;
-		for(;i<len;i++){
-			data1 = {
-				"区局":data.district,
-				"批次":data.batch,
-				"供电所":data.powerSupply,
-				"项目编号":data.projectCode,
-				"工程名称":data.projectName,
-				"材料编码":data.meterials[i].meterialCode,
-				"材料名称":data.meterials[i].meterialName,
-				"单位":data.meterials[i].meterialUnit,
-				"单价":data.meterials[i].meterialPrice,
-				"是否业扩储备物资":data.meterials[i].meterialCheck,
-				"备注信息":data.meterials[i].meterialAttention,
-				"数量":data.meterials[i].num
+		var res = $.addMaterial(data);
+		if(res.status==200){
+			res = $.createPro(proData);
+			if(res.status==200){
+				// setTimeout( () => {
+				// 	window.location.href = res.info;
+					// window.event.returnValue = false;
+				// }, 1000);
+			}else{
+				alert("提交失败，请重试");
 			}
-			arr.push(data1);
+		}else{
+			alert("提交失败，请重试");
 		}
-	    var d=new Date();
-    	var name = d.getTime() + String(parseInt(Math.random()*10000)) + ".xlsx";
-    	var opts = [{sheetid:'One',header:true}];
-    	var res = alasql('SELECT INTO XLSX("'+ name +'",?) FROM ?',
-                     [opts,[arr]]);
-	}
+	})
+
 })

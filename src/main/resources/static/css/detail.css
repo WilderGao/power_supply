@@ -6,11 +6,12 @@
 	overflow: hidden;
 }
 .stuff_box div{
-	float: left;
+	/*float: left;*/
+	display: inline-block;
 	width: 150px;
 }
 div.stuff_name{
-	float: left;
+	/*float: left;*/
 	width: 400px;
 }
 div.stuff_num{
@@ -21,6 +22,7 @@ div.stuff_in{
 	width: 60px;
 	padding-left: 300px;
 	display: inline-block;
+/*	float:right;*/
 }
 div.meterialUnit{
 	width: 70px;

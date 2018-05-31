@@ -36,7 +36,8 @@ public class ProjectController {
      * @return
      */
     @PostMapping(value = "/build")
-    public ResultInfo<String> buildProject(@RequestBody Map<String, String> map, HttpServletRequest request) throws ProjectException, IOException, ExcelException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    @ResponseBody
+    public ResultInfo<String> buildProject(@RequestBody Map<String, String> map, HttpServletRequest request) throws ProjectException, IOException, ExcelException, IllegalAccessException, InvocationTargetException, InstantiationException, InterruptedException {
         String sessionId = map.get("sessionId");
         String district = map.get("district");
         String batch = map.get("batch");
@@ -61,12 +62,15 @@ public class ProjectController {
     @GetMapping(value = "/detail")
     @ResponseBody
     public ResultInfo<Project> projectDetail(@RequestParam("projectId") int projectId) throws ProjectException {
+        log.info("==== 查看历史工程 ====");
         return projectService.projectDetailHandler(projectId);
     }
 
-    @GetMapping(value = "/export/{id}")
-    public ResultInfo<String> exportProject(@PathVariable("id") Integer projectId, HttpServletRequest request)
-            throws ExcelException, ProjectException, IOException {
+    @GetMapping(value = "/export")
+    @ResponseBody
+    public ResultInfo<String> exportProject(@RequestParam("id") Integer projectId, HttpServletRequest request)
+            throws ExcelException, ProjectException, IOException, InterruptedException {
+        log.info("==== 导出历史工程 ====");
         String excelPathContent = request.getServletContext().getRealPath("/history/");
         return projectService.projectExport(projectId, excelPathContent);
     }

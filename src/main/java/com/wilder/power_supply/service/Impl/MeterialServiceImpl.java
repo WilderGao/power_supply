@@ -53,9 +53,3 @@ public class MeterialServiceImpl implements MeterialService {
     }
 }
 
-
-//        if (null == materialCode && null == materialName){
-//            log.error(" ====== material's name and code are empty ======");
-//            throw new MeterialException(StatusEnum.ERROR.getState(), StatusStatementEnum.MATERIAL_NAME_AND_CODE_EMPTY);
-//
-//        }else {

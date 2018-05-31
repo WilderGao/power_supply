@@ -35,6 +35,7 @@ public class DeviceController {
 
     @GetMapping(value = "/get")
     public ResultInfo<List<Device>> deviceList(){
+        log.info(" ==== 获得设备列表 ====");
         return deviceService.deviceList();
     }
 
@@ -42,6 +43,7 @@ public class DeviceController {
     @PostMapping(value = "/export")
     @ResponseBody
     public ResultInfo<String> deportDeviceExcel(@RequestBody Device device, HttpServletRequest request) throws ExcelException, DeviceException, IOException, InterruptedException {
+        log.info(" ==== 导出设备为excel ====");
         String excelPath = request.getServletContext().getRealPath("/device/" + device.getDeviceName()+".xls");
         return deviceService.deportDevice(device, excelPath);
 
@@ -51,7 +53,7 @@ public class DeviceController {
     @GetMapping(value = "/detail")
     @ResponseBody
     public ResultInfo<Device> deviceDetail(@RequestParam("deviceId")int deviceId) throws DeviceException {
-
+        log.info("查看 设备");
         return deviceService.deviceDetailHandler(deviceId);
     }
 
