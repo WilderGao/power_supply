@@ -2,10 +2,7 @@ package com.wilder.power_supply.buffer;
 
 import com.wilder.power_supply.model.Meterial;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -16,7 +13,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class BufferMen {
 
-    public static Map<String, List<Meterial>> projectMaterialMap = new TreeMap<>();
+    /**
+     * 用户和材料对应的缓存，需要和下方设备对应缓存的 UUID 相对应
+     */
+    public static Map<String, List<Meterial>> projectMaterialMap = new Hashtable<>(10);
+
+    /**
+     * 用户和用户选择的设备对应缓存
+     */
+    public static Map<String, Map<String, List<Meterial>>> userMap = new Hashtable<>(10);
 
 
 }

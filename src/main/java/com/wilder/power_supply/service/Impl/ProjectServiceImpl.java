@@ -51,14 +51,21 @@ public class ProjectServiceImpl implements ProjectService {
                 return resultInfo;
 
             }else {
+                //找到额外添加的材料信息
                 Map<String, List<Meterial>> map = BufferMen.projectMaterialMap;
+                //找到添加的设备信息
+                Map<String, List<Meterial>> deviceMap = BufferMen.userMap.get(sessionId);
                 List<Meterial> materials = map.get(sessionId);
+
+                deviceMap.forEach((k, v)-> materials.addAll(v));
+
                 if (null == materials){
                     log.error("==== 材料为空 ====");
                     ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.ERROR.getState(), "没有找到与这个工程有关的材料");
                     resultInfo.setInfo("没有找到与这个工程有关的材料");
                     return resultInfo;
                 }
+
                 if (materials.size() != 0) {
                     project.setMeterials(materials);
                     // insert into project table

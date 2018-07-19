@@ -1,5 +1,6 @@
 package com.wilder.power_supply.service.Impl;
 
+import com.wilder.power_supply.buffer.BufferMen;
 import com.wilder.power_supply.dao.MeterialDao;
 import com.wilder.power_supply.enums.StatusEnum;
 import com.wilder.power_supply.enums.StatusStatementEnum;
@@ -13,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Wilder Gao
@@ -50,6 +50,56 @@ public class MeterialServiceImpl implements MeterialService {
 
             }
 
+    }
+
+    @Override
+    public ResultInfo<String> addMaterial(String sessionId, List<Meterial> materials) {
+        if (sessionId == null){
+            log.info("sessionId为空，没有添加设备直接添加材料");
+            String uuid = UUID.randomUUID().toString();
+            if (!BufferMen.projectMaterialMap.containsKey(uuid)){
+                BufferMen.projectMaterialMap.put(uuid, materials);
+            }
+            ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
+            resultInfo.setInfo(uuid);
+            return resultInfo;
+        }else {
+            if (BufferMen.projectMaterialMap.containsKey(sessionId)){
+                //这个Id里面存在材料
+                if (materials.size() != 0){
+                    Map<String, List<Meterial>> map = BufferMen.projectMaterialMap;
+                    map.get(sessionId).addAll(materials);
+
+                }
+                ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
+                resultInfo.setInfo(sessionId);
+                return resultInfo;
+            }else {
+                BufferMen.projectMaterialMap.put(sessionId, materials);
+                ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
+                resultInfo.setInfo(sessionId);
+                return resultInfo;
+            }
+        }
+    }
+
+    @Override
+    public ResultInfo<List<Meterial>> showChooseMaterial(String sessionId) {
+        if (!sessionId.isEmpty()) {
+            List<Meterial> meterialList = new LinkedList<>();
+            if (BufferMen.userMap.containsKey(sessionId)) {
+                Map<String, List<Meterial>> deviceMap = BufferMen.userMap.get(sessionId);
+                deviceMap.forEach((k,v)-> meterialList.addAll(v));
+            }
+            if (BufferMen.projectMaterialMap.containsKey(sessionId)){
+                meterialList.addAll(BufferMen.projectMaterialMap.get(sessionId));
+            }
+            ResultInfo<List<Meterial>> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "显示成功");
+            resultInfo.setInfo(meterialList);
+            return resultInfo;
+        }else {
+            return new ResultInfo<>(StatusEnum.PATAMETER_ERROR.getState(), "sessionId 为空");
+        }
     }
 }
 

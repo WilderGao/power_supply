@@ -38,34 +38,12 @@ public class MaterialController {
         return materialService.searchMaterial(materialCode, materialName);
     }
 
-    /**
-     * 将材料放进缓存
-     * @param map
-     * @return
-     * @throws MeterialException
-     */
-    @PostMapping("/adddevice")
-    @ResponseBody
-    public ResultInfo<String> saveBuffer(@RequestBody Map<String, List<Meterial>> map) throws MeterialException {
-        log.info("===== 将设备中的材料放入缓存 =====");
-        List<Meterial> meterials = map.get("meterials");
-        if (meterials == null || meterials.size() == 0){
-            throw new MeterialException(StatusEnum.ERROR.getState(), "材料为空");
-        }else {
-            String uuid = UUID.randomUUID().toString();
-            if (!BufferMen.projectMaterialMap.containsKey(uuid)){
-                BufferMen.projectMaterialMap.put(uuid, meterials);
-            }
-            ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
-            resultInfo.setInfo(uuid);
-            return resultInfo;
-        }
-    }
 
 
-    @PostMapping("/addmaterial")
+    @PostMapping(value = "/addmaterial")
     @ResponseBody
-    public ResultInfo<String> saveMaterialBuffer(@RequestBody Map<String, Object> requestMap) throws MeterialException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public ResultInfo<String> saveMaterialBuffer(@RequestBody Map<String, Object> requestMap) throws IllegalAccessException,
+            InvocationTargetException, InstantiationException {
         log.info("==== 添加材料信息 ====");
         String sessionId = (String) requestMap.get("sessionId");
         List<LinkedHashMap> linkedHashMaps = (List<LinkedHashMap>) requestMap.get("meterials");
@@ -76,33 +54,14 @@ public class MaterialController {
             materials.add(meterial);
         }
 
-        if (sessionId == null){
-            log.info("sessionId为空，没有添加设备直接添加材料");
-            String uuid = UUID.randomUUID().toString();
-            if (!BufferMen.projectMaterialMap.containsKey(uuid)){
-                BufferMen.projectMaterialMap.put(uuid, materials);
-            }
-            ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
-            resultInfo.setInfo(uuid);
-            return resultInfo;
-        }else {
-            if (BufferMen.projectMaterialMap.containsKey(sessionId)){
-                //这个Id里面存在材料
-                if (materials.size() != 0){
-                    Map<String, List<Meterial>> map = BufferMen.projectMaterialMap;
-                    map.get(sessionId).addAll(materials);
+        return materialService.addMaterial(sessionId, materials);
+    }
 
-                }
-                ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
-                resultInfo.setInfo(sessionId);
-                return resultInfo;
-            }else {
-                BufferMen.projectMaterialMap.put(sessionId, materials);
-                ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
-                resultInfo.setInfo(sessionId);
-                return resultInfo;
-            }
-        }
+    @GetMapping(value = "/show/{sessionId}")
+    @ResponseBody
+    public ResultInfo<List<Meterial>> showChooseMaterials(@PathVariable("sessionId")String sessionId){
+        log.info("展示所有已经选择的材料: "+sessionId);
+        return materialService.showChooseMaterial(sessionId);
 
     }
 

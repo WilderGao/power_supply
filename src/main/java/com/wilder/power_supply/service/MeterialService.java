@@ -21,4 +21,20 @@ public interface MeterialService {
      * @throws MeterialException
      */
     ResultInfo<List<Meterial>> searchMaterial(String materialCode, String materialName) throws MeterialException;
+
+    /**
+     * 添加材料信息
+     * @param sessionId sessionId
+     * @param materials 材料集合
+     * @return 结果集
+     */
+    ResultInfo<String> addMaterial(String sessionId, List<Meterial> materials);
+
+
+    /**
+     * 展示已经选择的所有材料
+     * @param sessionId 指定用户
+     * @return 查询结果集
+     */
+    ResultInfo<List<Meterial>> showChooseMaterial(String sessionId);
 }

@@ -24,6 +24,7 @@ public interface ProjectService {
      * @throws ProjectException
      * @throws IOException
      * @throws ExcelException
+     * @throws InterruptedException
      */
     ResultInfo<String> buildProjectHandler(Project project, String sessionId, String excelPath) throws ProjectException, IOException, ExcelException, InterruptedException;
 

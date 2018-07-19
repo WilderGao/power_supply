@@ -28,7 +28,7 @@ public interface DeviceService {
 
 
     /**
-     *
+     * 导出设备
      * @param device
      * @param excelPath
      * @return
@@ -45,5 +45,13 @@ public interface DeviceService {
      * @return
      */
     ResultInfo<List<Device>> deviceList();
+
+    /**
+     * 删除已经选择的设备信息
+     * @param sessionId 对应操作者
+     * @param deviceName    设备名称
+     * @return
+     */
+    ResultInfo deleteChooseDevice(String sessionId, String deviceName);
 
 }

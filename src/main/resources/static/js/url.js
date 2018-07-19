@@ -46,7 +46,7 @@
 (function($) {
 	$.extend({
 		localurl:function(){
-	    	return "http://120.77.38.183/";
+	    	return "http://localhost/";
 	    },
 	    createPro:function(json){
 	    	// console.log(json)

@@ -1,4 +1,5 @@
 package com.wilder.power_supply.service.Impl;
+import com.wilder.power_supply.buffer.BufferMen;
 import com.wilder.power_supply.dao.DeviceDao;
 import com.wilder.power_supply.dto.ResultInfo;
 import com.wilder.power_supply.enums.StatusEnum;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Wilder Gao
@@ -41,14 +43,12 @@ public class DeviceServiceImpl implements DeviceService {
             if (0 == deviceDetail.size()){
                 throw new DeviceException(StatusEnum.ERROR.getState(), "材料信息结果为空");
             }else {
-
                 String deviceName = deviceDao.getDeviceName(deviceId);
                 if (null == deviceName){
                     throw new DeviceException(StatusEnum.ERROR.getState(), "设备不存在");
                 }
                 Device device = new Device(deviceId, deviceName, deviceDetail);
-                ResultInfo<Device> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "OK", device);
-                return resultInfo;
+                return new ResultInfo<>(StatusEnum.OK.getState(), "OK", device);
             }
         }
     }
@@ -78,13 +78,29 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public ResultInfo<List<Device>> deviceList(){
         List<Device> devices = deviceDao.getDeviceList();
-        if (0 == devices.size()){
+        if (null == devices || 0 == devices.size()){
             log.info("没有设备信息");
             return new ResultInfo<>(StatusEnum.ERROR.getState(), "没有设备信息");
         }else {
             ResultInfo<List<Device>> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "OK");
             resultInfo.setInfo(devices);
             return resultInfo;
+        }
+    }
+
+    @Override
+    public ResultInfo deleteChooseDevice(String sessionId, String deviceName) {
+        if (sessionId.isEmpty() || deviceName.isEmpty()){
+            log.info("传入的sessionId 和 deviceName 为空");
+            return new ResultInfo(StatusEnum.PATAMETER_ERROR.getState(), "传入参数为空");
+        }else {
+            Map<String, Map<String, List<Meterial>>> userMap = BufferMen.userMap;
+            if (userMap.containsKey(sessionId)){
+                //将对应的设备信息删除
+                userMap.get(sessionId).remove(deviceName);
+            }
+            return new ResultInfo(StatusEnum.OK.getState(), "操作成功");
+
         }
     }
 
