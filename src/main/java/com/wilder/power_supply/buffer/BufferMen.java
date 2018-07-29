@@ -1,5 +1,6 @@
 package com.wilder.power_supply.buffer;
 
+import com.wilder.power_supply.model.Device;
 import com.wilder.power_supply.model.Meterial;
 
 import java.util.*;
@@ -21,7 +22,7 @@ public final class BufferMen {
     /**
      * 用户和用户选择的设备对应缓存
      */
-    public static Map<String, Map<String, List<Meterial>>> userMap = new Hashtable<>(10);
+    public static Map<String, List<Device>> userMap = new Hashtable<>(10);
 
 
 }

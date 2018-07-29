@@ -6,6 +6,7 @@ import com.wilder.power_supply.dto.ResultInfo;
 import com.wilder.power_supply.enums.StatusEnum;
 import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.exception.ProjectException;
+import com.wilder.power_supply.model.Device;
 import com.wilder.power_supply.model.Meterial;
 import com.wilder.power_supply.model.Project;
 import com.wilder.power_supply.service.ProjectService;
@@ -35,7 +36,7 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectDao projectDao;
 
     @Override
-    public ResultInfo buildProjectHandler(Project project, String sessionId, String excelPath) throws ProjectException, IOException, ExcelException, InterruptedException {
+    public ResultInfo<String> buildProjectHandler(Project project, String sessionId, String excelPath) throws ProjectException, IOException, ExcelException, InterruptedException {
         //check if the project complete
         String checkResult = checkProject(project);
         if (!checkResult.equals(PROJECT_COMPLETE)){
@@ -47,17 +48,16 @@ public class ProjectServiceImpl implements ProjectService {
             if (exist != 0){
                 log.error("==== 该工程已经存在 ====");
                 // exist this project , insert fail
-                ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.ERROR.getState(), PROJECT_EXIST);
-                return resultInfo;
+                return new ResultInfo<>(StatusEnum.ERROR.getState(), PROJECT_EXIST);
 
             }else {
                 //找到额外添加的材料信息
                 Map<String, List<Meterial>> map = BufferMen.projectMaterialMap;
                 //找到添加的设备信息
-                Map<String, List<Meterial>> deviceMap = BufferMen.userMap.get(sessionId);
+                List<Device> deviceMap = BufferMen.userMap.get(sessionId);
                 List<Meterial> materials = map.get(sessionId);
 
-                deviceMap.forEach((k, v)-> materials.addAll(v));
+                deviceMap.forEach((v)-> materials.addAll(v.getMeterials()));
 
                 if (null == materials){
                     log.error("==== 材料为空 ====");

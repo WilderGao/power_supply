@@ -3,10 +3,9 @@ package com.wilder.power_supply.service.Impl;
 import com.wilder.power_supply.buffer.BufferMen;
 import com.wilder.power_supply.dao.MeterialDao;
 import com.wilder.power_supply.enums.StatusEnum;
-import com.wilder.power_supply.enums.StatusStatementEnum;
-import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.exception.MeterialException;
 import com.wilder.power_supply.dto.ResultInfo;
+import com.wilder.power_supply.model.Device;
 import com.wilder.power_supply.model.Meterial;
 import com.wilder.power_supply.service.MeterialService;
 import lombok.extern.slf4j.Slf4j;
@@ -88,8 +87,8 @@ public class MeterialServiceImpl implements MeterialService {
         if (!sessionId.isEmpty()) {
             List<Meterial> meterialList = new LinkedList<>();
             if (BufferMen.userMap.containsKey(sessionId)) {
-                Map<String, List<Meterial>> deviceMap = BufferMen.userMap.get(sessionId);
-                deviceMap.forEach((k,v)-> meterialList.addAll(v));
+                List<Device> deviceMap = BufferMen.userMap.get(sessionId);
+                deviceMap.forEach((v)-> meterialList.addAll(v.getMeterials()));
             }
             if (BufferMen.projectMaterialMap.containsKey(sessionId)){
                 meterialList.addAll(BufferMen.projectMaterialMap.get(sessionId));

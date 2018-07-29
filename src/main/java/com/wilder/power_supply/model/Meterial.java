@@ -63,4 +63,5 @@ public class Meterial extends BaseRowModel{
      * 材料数量
      */
     private String num;
+
 }

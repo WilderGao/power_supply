@@ -94,10 +94,26 @@ public class DeviceServiceImpl implements DeviceService {
             log.info("传入的sessionId 和 deviceName 为空");
             return new ResultInfo(StatusEnum.PATAMETER_ERROR.getState(), "传入参数为空");
         }else {
-            Map<String, Map<String, List<Meterial>>> userMap = BufferMen.userMap;
+            int deleteIndex = -1;
+            Map<String, List<Device>> userMap = BufferMen.userMap;
             if (userMap.containsKey(sessionId)){
                 //将对应的设备信息删除
-                userMap.get(sessionId).remove(deviceName);
+                List<Device> devices = userMap.get(sessionId);
+                for (Device device : devices) {
+                    if (device.getDeviceName().equals(deviceName)){
+                        deleteIndex = devices.indexOf(device);
+                        log.info("准备删除的index为："+deleteIndex);
+                        break;
+                    }
+                }
+                //判断是否有要删除的设备
+                if (deleteIndex != -1){
+                    //认为有东西要删除
+                    devices.remove(deleteIndex);
+                    log.info("删除成功");
+                }else{
+                    log.info("不存在这个材料，删除失败");
+                }
             }
             return new ResultInfo(StatusEnum.OK.getState(), "操作成功");
 

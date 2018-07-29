@@ -68,7 +68,8 @@ public class ProjectController {
 
     @GetMapping(value = "/export")
     @ResponseBody
-    public ResultInfo<String> exportProject(@RequestParam("id") Integer projectId, HttpServletRequest request)
+    public ResultInfo<String> exportProject(@RequestParam("id") Integer projectId,
+                                            HttpServletRequest request)
             throws ExcelException, ProjectException, IOException, InterruptedException {
         log.info("==== 导出历史工程 ====");
         String excelPathContent = request.getServletContext().getRealPath("/history/");

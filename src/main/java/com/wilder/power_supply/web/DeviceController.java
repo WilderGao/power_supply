@@ -7,7 +7,6 @@ import com.wilder.power_supply.exception.DeviceException;
 import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.exception.MeterialException;
 import com.wilder.power_supply.model.Device;
-import com.wilder.power_supply.model.Meterial;
 import com.wilder.power_supply.service.DeviceService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -55,27 +53,27 @@ public class DeviceController {
     @ResponseBody
     public ResultInfo<Device> deviceDetail(@RequestParam("deviceId")int deviceId)
             throws DeviceException {
-        log.info("查看 设备");
+        log.info("查看设备");
         return deviceService.deviceDetailHandler(deviceId);
     }
 
     /**
      * 将设备放进缓存
-     * @param map
+     * @param devices 设备集合
      * @return
      * @throws MeterialException
      */
     @PostMapping("/adddevice")
     @ResponseBody
-    public ResultInfo<String> saveBuffer(@RequestBody Map<String, List<Meterial>> map) throws MeterialException {
+    public ResultInfo<String> saveBuffer(@RequestBody List<Device> devices) throws MeterialException {
         log.info("===== 将设备中的材料放入缓存 =====");
-        if (map == null || map.size() == 0){
+        if (devices == null || devices.size() == 0){
             throw new MeterialException(StatusEnum.ERROR.getState(), "材料为空");
         }else {
             String uuid = UUID.randomUUID().toString();
             if (!BufferMen.userMap.containsKey(uuid)){
                 log.info("不存在改操作者的信息......");
-                BufferMen.userMap.put(uuid, map);
+                BufferMen.userMap.put(uuid, devices);
             }
             ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
             resultInfo.setInfo(uuid);

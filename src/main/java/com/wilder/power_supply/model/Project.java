@@ -57,6 +57,7 @@ public class Project extends BaseRowModel {
      */
     private List<Meterial> meterials;
 
+
     public Project(String district, String batch, String powerSupply, String projectCode, String projectName) {
         this.district = district;
         this.batch = batch;
