@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.transform.Result;
+import java.nio.Buffer;
 import java.util.*;
 
 /**
@@ -48,7 +50,6 @@ public class MeterialServiceImpl implements MeterialService {
                 return resultInfo;
 
             }
-
     }
 
     @Override
@@ -99,6 +100,26 @@ public class MeterialServiceImpl implements MeterialService {
         }else {
             return new ResultInfo<>(StatusEnum.PATAMETER_ERROR.getState(), "sessionId 为空");
         }
+    }
+
+    @Override
+    public ResultInfo<String> deleteChooseMaterial(String sessionId, int meterialid) {
+        List<Meterial> savedMaterial = BufferMen.projectMaterialMap.get(sessionId);
+        int deleteIndex = -1;
+        for (Meterial meterial : savedMaterial) {
+            if (meterial.getMeterialId() == meterialid){
+                deleteIndex = savedMaterial.indexOf(meterial);
+                break;
+            }
+        }
+        if (deleteIndex != -1){
+            BufferMen.projectMaterialMap.get(sessionId).remove(deleteIndex);
+            ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "删除成功");
+            resultInfo.setInfo("删除成功");
+            return resultInfo;
+        }
+
+        return new ResultInfo<>(StatusEnum.ERROR.getState(), "没有找到这个材料信息");
     }
 }
 

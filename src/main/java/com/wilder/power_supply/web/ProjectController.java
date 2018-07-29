@@ -66,7 +66,7 @@ public class ProjectController {
         return projectService.projectDetailHandler(projectId);
     }
 
-    @GetMapping(value = "/export")
+    @PostMapping(value = "/export")
     @ResponseBody
     public ResultInfo<String> exportProject(@RequestParam("id") Integer projectId,
                                             HttpServletRequest request)

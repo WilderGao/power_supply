@@ -8,6 +8,7 @@ import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.model.Device;
 import com.wilder.power_supply.model.Meterial;
 import com.wilder.power_supply.service.DeviceService;
+import com.wilder.power_supply.utils.BeanUtil;
 import com.wilder.power_supply.utils.ExcelUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * @author Wilder Gao
@@ -89,10 +90,10 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public ResultInfo deleteChooseDevice(String sessionId, String deviceName) {
-        if (sessionId.isEmpty() || deviceName.isEmpty()){
+    public ResultInfo<String> deleteChooseDevice(String sessionId, int deviceId) {
+        if (sessionId.isEmpty() ){
             log.info("传入的sessionId 和 deviceName 为空");
-            return new ResultInfo(StatusEnum.PATAMETER_ERROR.getState(), "传入参数为空");
+            return new ResultInfo<>(StatusEnum.PATAMETER_ERROR.getState(), "传入参数为空");
         }else {
             int deleteIndex = -1;
             Map<String, List<Device>> userMap = BufferMen.userMap;
@@ -100,7 +101,7 @@ public class DeviceServiceImpl implements DeviceService {
                 //将对应的设备信息删除
                 List<Device> devices = userMap.get(sessionId);
                 for (Device device : devices) {
-                    if (device.getDeviceName().equals(deviceName)){
+                    if (device.getDeviceId() == deviceId ){
                         deleteIndex = devices.indexOf(device);
                         log.info("准备删除的index为："+deleteIndex);
                         break;
@@ -115,9 +116,54 @@ public class DeviceServiceImpl implements DeviceService {
                     log.info("不存在这个材料，删除失败");
                 }
             }
-            return new ResultInfo(StatusEnum.OK.getState(), "操作成功");
+            return new ResultInfo<>(StatusEnum.OK.getState(), "操作成功");
 
         }
+    }
+
+    @Override
+    public ResultInfo<String> saveSelectedDevice(Map<String, Object> requestMap) throws IllegalAccessException, InvocationTargetException, InstantiationException {
+        log.info("===== 将设备中的材料放入缓存 =====");
+        if (requestMap == null || requestMap.size() == 0){
+            return new ResultInfo<>(StatusEnum.ERROR.getState(), "传入参数有误");
+        }
+        String sessionId = (String) requestMap.get("sessionId");
+        List<Device> devices = new LinkedList<>();
+        List<LinkedHashMap> requestList = (List<LinkedHashMap>) requestMap.get("devices");
+
+        for (LinkedHashMap hashMap : requestList) {
+            List<Meterial> meterials = new LinkedList<>();
+            List<LinkedHashMap> materialHashMap = (List<LinkedHashMap>) hashMap.get("meterials");
+            for (LinkedHashMap linkedHashMap : materialHashMap) {
+                meterials.add((Meterial) BeanUtil.mapToObject(linkedHashMap, Meterial.class));
+            }
+            int deviceId = (int) hashMap.get("deviceId");
+            String deviceName = (String) hashMap.get("deviceName");
+            Device device = new Device(deviceId, deviceName, meterials);
+            devices.add(device);
+        }
+
+        if (sessionId == null || sessionId.isEmpty()){
+            log.info("sessionId为空，从来没有添加过");
+            String uuid = UUID.randomUUID().toString();
+            if (!BufferMen.userMap.containsKey(uuid)){
+                log.info("不存在该操作者的信息......");
+                BufferMen.userMap.put(uuid, devices);
+            }
+            ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
+            resultInfo.setInfo(uuid);
+            return resultInfo;
+        }else {
+            log.info("说明存在sessionId");
+            if (devices.size() != 0){
+                BufferMen.userMap.get(sessionId).addAll(devices);
+                ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
+                resultInfo.setInfo(sessionId);
+                return resultInfo;
+            }
+        }
+        return new ResultInfo<>(StatusEnum.ERROR.getState(),"服务器出现错误");
+
     }
 
 }

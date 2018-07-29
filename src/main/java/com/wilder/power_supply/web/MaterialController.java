@@ -1,11 +1,14 @@
 package com.wilder.power_supply.web;
 
+import com.wilder.power_supply.buffer.BufferMen;
 import com.wilder.power_supply.dto.ResultInfo;
+import com.wilder.power_supply.enums.StatusEnum;
 import com.wilder.power_supply.exception.MeterialException;
 import com.wilder.power_supply.model.Meterial;
 import com.wilder.power_supply.service.MeterialService;
 import com.wilder.power_supply.utils.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.omg.PortableInterceptor.RequestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +39,6 @@ public class MaterialController {
         return materialService.searchMaterial(materialCode, materialName);
     }
 
-
-
     @PostMapping(value = "/addmaterial")
     @ResponseBody
     public ResultInfo<String> saveMaterialBuffer(@RequestBody Map<String, Object> requestMap) throws IllegalAccessException,
@@ -60,7 +61,33 @@ public class MaterialController {
     public ResultInfo<List<Meterial>> showChooseMaterials(@PathVariable("sessionId")String sessionId){
         log.info("展示所有已经选择的材料: "+sessionId);
         return materialService.showChooseMaterial(sessionId);
+    }
 
+    @GetMapping(value = "/delete/{sessionId}/{meterialId}")
+    @ResponseBody
+    public ResultInfo<String> deleteChooseMaterial(@PathVariable("sessionId")String sessionId,
+                                                    @PathVariable("meterialId")int materialId){
+        log.info("删除已经添加的材料信息");
+        return materialService.deleteChooseMaterial(sessionId, materialId);
+    }
+
+
+    /**
+     * 获得已经选择的材料信息
+     * @param sessionId sessionId
+     * @return  结果集
+     */
+    @GetMapping(value = "/selected/{sessionId}")
+    @ResponseBody
+    public ResultInfo<List<Meterial>> getChooseMaterial(@PathVariable("sessionId")String sessionId){
+        if (BufferMen.projectMaterialMap.containsKey(sessionId)){
+            List<Meterial> meterials = BufferMen.projectMaterialMap.get(sessionId);
+            ResultInfo<List<Meterial>> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "操作成功");
+            resultInfo.setInfo(meterials);
+            return resultInfo;
+        }else {
+            return new ResultInfo<>(StatusEnum.ERROR.getState(), "该sessionId不存在");
+        }
     }
 
 }

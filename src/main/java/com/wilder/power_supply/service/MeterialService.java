@@ -37,4 +37,12 @@ public interface MeterialService {
      * @return 查询结果集
      */
     ResultInfo<List<Meterial>> showChooseMaterial(String sessionId);
+
+    /**
+     * 删除已经选择的材料
+     * @param sessionId     对应一个操作用户
+     * @param meterialid    材料Id
+     * @return
+     */
+    ResultInfo<String> deleteChooseMaterial(String sessionId, int meterialid);
 }

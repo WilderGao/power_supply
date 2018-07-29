@@ -4,9 +4,12 @@ import com.wilder.power_supply.dto.ResultInfo;
 import com.wilder.power_supply.exception.DeviceException;
 import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.model.Device;
+import org.omg.PortableInterceptor.RequestInfo;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -49,9 +52,16 @@ public interface DeviceService {
     /**
      * 删除已经选择的设备信息
      * @param sessionId 对应操作者
-     * @param deviceName    设备名称
+     * @param deviceId 设备名称
      * @return
      */
-    ResultInfo deleteChooseDevice(String sessionId, String deviceName);
+    ResultInfo<String> deleteChooseDevice(String sessionId, int deviceId);
+
+    /**
+     * 保存已经选择的设备信息
+     * @param map 请求的键值对
+     * @return  结果集合
+     */
+    ResultInfo<String> saveSelectedDevice(Map<String, Object> map) throws IllegalAccessException, InvocationTargetException, InstantiationException;
 
 }

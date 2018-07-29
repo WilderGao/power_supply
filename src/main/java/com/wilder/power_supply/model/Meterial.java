@@ -4,13 +4,17 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author Wilder Gao
  * time:2018/4/14
  * Description：材料实体类
  */
 @Data
-public class Meterial extends BaseRowModel{
+public class Meterial extends BaseRowModel implements Serializable {
+    private static final Long ID = -5809782578272943999L;
+
     /**
      * 序号
      */

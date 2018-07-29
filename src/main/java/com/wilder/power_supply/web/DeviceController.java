@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 /**
  * @author Wilder Gao
@@ -59,34 +60,38 @@ public class DeviceController {
 
     /**
      * 将设备放进缓存
-     * @param devices 设备集合
+     * @param requestMap 设备集合
      * @return
-     * @throws MeterialException
      */
     @PostMapping("/adddevice")
     @ResponseBody
-    public ResultInfo<String> saveBuffer(@RequestBody List<Device> devices) throws MeterialException {
-        log.info("===== 将设备中的材料放入缓存 =====");
-        if (devices == null || devices.size() == 0){
-            throw new MeterialException(StatusEnum.ERROR.getState(), "材料为空");
-        }else {
-            String uuid = UUID.randomUUID().toString();
-            if (!BufferMen.userMap.containsKey(uuid)){
-                log.info("不存在改操作者的信息......");
-                BufferMen.userMap.put(uuid, devices);
-            }
-            ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
-            resultInfo.setInfo(uuid);
-            return resultInfo;
-        }
+    public ResultInfo<String> saveBuffer(@RequestBody Map<String, Object> requestMap) throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        return deviceService.saveSelectedDevice(requestMap);
     }
 
 
-    @GetMapping(value = "/delete/{sessionId}/{deviceName}")
+    @GetMapping(value = "/delete/{sessionId}/{deviceId}")
     @ResponseBody
-    public ResultInfo deleteChooseDevice(@PathVariable("sessionId")String sessionId,
-                                         @PathVariable("deviceName")String deviceName){
-        log.info(sessionId + "对应的账号要删除"+deviceName+"这个设备");
-        return deviceService.deleteChooseDevice(sessionId, deviceName);
+    public ResultInfo<String> deleteChooseDevice(@PathVariable("sessionId")String sessionId,
+                                         @PathVariable("deviceId")int deviceId){
+        log.info(sessionId + "对应的账号要删除"+deviceId+"这个设备");
+        return deviceService.deleteChooseDevice(sessionId, deviceId);
+    }
+
+    /**
+     * 得到已经选择的设备信息
+     * @param sessionId 用户Id
+     * @return  结果集
+     */
+    @GetMapping(value = "/selected/{sessionId}")
+    public ResultInfo<List<Device>> getChooseDevice(@PathVariable("sessionId")String sessionId){
+        if (sessionId == null || sessionId.isEmpty()){
+            return new ResultInfo<>(StatusEnum.ERROR.getState(), "传入参数有误");
+        }else {
+            ResultInfo<List<Device>> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "操作成功");
+            resultInfo.setInfo(BufferMen.userMap.get(sessionId));
+
+            return resultInfo;
+        }
     }
 }

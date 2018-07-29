@@ -54,10 +54,10 @@ public class ProjectServiceImpl implements ProjectService {
                 //找到额外添加的材料信息
                 Map<String, List<Meterial>> map = BufferMen.projectMaterialMap;
                 //找到添加的设备信息
-                List<Device> deviceMap = BufferMen.userMap.get(sessionId);
+                List<Device> devices = BufferMen.userMap.get(sessionId);
                 List<Meterial> materials = map.get(sessionId);
 
-                deviceMap.forEach((v)-> materials.addAll(v.getMeterials()));
+                devices.forEach((v)-> materials.addAll(v.getMeterials()));
 
                 if (null == materials){
                     log.error("==== 材料为空 ====");
