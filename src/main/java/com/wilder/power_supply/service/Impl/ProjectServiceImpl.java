@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,16 +58,18 @@ public class ProjectServiceImpl implements ProjectService {
                 List<Device> devices = BufferMen.userMap.get(sessionId);
                 List<Meterial> materials = map.get(sessionId);
 
-                devices.forEach((v)-> materials.addAll(v.getMeterials()));
+                if (materials == null) materials = new LinkedList<>();
 
-                if (null == materials){
+                for (Device device : devices) {
+                    materials.addAll(device.getMeterials());
+                }
+
+                if (materials.size() == 0){
                     log.error("==== 材料为空 ====");
                     ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.ERROR.getState(), "没有找到与这个工程有关的材料");
                     resultInfo.setInfo("没有找到与这个工程有关的材料");
                     return resultInfo;
-                }
-
-                if (materials.size() != 0) {
+                }else {
                     project.setMeterials(materials);
                     // insert into project table
                     projectDao.insertNewProject(project);
@@ -78,11 +81,7 @@ public class ProjectServiceImpl implements ProjectService {
                     ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), OK);
                     resultInfo.setInfo(path);
 
-                    Thread.sleep(4000);
                     return resultInfo;
-                }else {
-                    log.error("材料为空");
-                    throw new ProjectException(StatusEnum.ERROR.getState(), "材料为空");
                 }
 
             }
@@ -119,6 +118,8 @@ public class ProjectServiceImpl implements ProjectService {
                 throw new ProjectException(StatusEnum.ERROR.getState(), "获取工程失败");
             }
             project.setMeterials(materials);
+
+            log.info(project.toString());
             return new ResultInfo<>(StatusEnum.OK.getState(),
                     "OK", project);
 
@@ -128,17 +129,14 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public ResultInfo<String> projectExport(int projectId, String excelPathContent)
-            throws ProjectException, IOException, ExcelException, InterruptedException {
-        if (projectId <= 0){
+    public ResultInfo<String> projectExport(Project project, String excelPathContent)
+            throws ProjectException, IOException, ExcelException {
+        if (project == null ){
             log.error("工程 Id 出错");
             throw new ProjectException(StatusEnum.ERROR.getState(), "工程 Id 出错");
         }else {
-            Project project = projectDao.getProjectById(projectId);
-            project.setMeterials(projectDao.getProjectDetail(projectId));
             if (project.getMeterials() == null || project.getMeterials().size() == 0){
                 return new ResultInfo<>(StatusEnum.OK.getState(), "材料为空");
-
             }
             if (checkProject(project).equals(PROJECT_COMPLETE)){
                 String excelName = project.getProjectName()+".xls";
@@ -148,7 +146,6 @@ public class ProjectServiceImpl implements ProjectService {
                 resultInfo.setMessage("导出成功");
                 resultInfo.setInfo(excelPath);
 
-                Thread.sleep(3000);
                 return resultInfo;
             }else {
                 throw new ProjectException(StatusEnum.ERROR.getState(), "导出excel出错");

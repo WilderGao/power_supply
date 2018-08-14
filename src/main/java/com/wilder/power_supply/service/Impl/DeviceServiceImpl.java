@@ -1,4 +1,5 @@
 package com.wilder.power_supply.service.Impl;
+import com.google.gson.Gson;
 import com.wilder.power_supply.buffer.BufferMen;
 import com.wilder.power_supply.dao.DeviceDao;
 import com.wilder.power_supply.dto.ResultInfo;
@@ -49,7 +50,11 @@ public class DeviceServiceImpl implements DeviceService {
                     throw new DeviceException(StatusEnum.ERROR.getState(), "设备不存在");
                 }
                 Device device = new Device(deviceId, deviceName, deviceDetail);
-                return new ResultInfo<>(StatusEnum.OK.getState(), "OK", device);
+                ResultInfo resultInfo =  new ResultInfo<>(StatusEnum.OK.getState(), "OK", device);
+                Gson gson = new Gson();
+                System.out.println(gson.toJson(resultInfo));
+
+                return resultInfo;
             }
         }
     }
@@ -128,6 +133,7 @@ public class DeviceServiceImpl implements DeviceService {
             return new ResultInfo<>(StatusEnum.ERROR.getState(), "传入参数有误");
         }
         String sessionId = (String) requestMap.get("sessionId");
+        log.info("====sessionId为："+sessionId);
         List<Device> devices = new LinkedList<>();
         List<LinkedHashMap> requestList = (List<LinkedHashMap>) requestMap.get("devices");
 
@@ -156,9 +162,14 @@ public class DeviceServiceImpl implements DeviceService {
         }else {
             log.info("说明存在sessionId");
             if (devices.size() != 0){
-                BufferMen.userMap.get(sessionId).addAll(devices);
+                if (BufferMen.userMap.containsKey(sessionId)) {
+                    BufferMen.userMap.get(sessionId).addAll(devices);
+                }else {
+                    BufferMen.userMap.put(sessionId, devices);
+                }
                 ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "保存成功");
                 resultInfo.setInfo(sessionId);
+                log.info("当前用户的设备信息为:"+BufferMen.userMap.get(sessionId));
                 return resultInfo;
             }
         }

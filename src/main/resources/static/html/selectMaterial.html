@@ -2,14 +2,20 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>南方电网订购材料网站</title>
+	<title>配网设计材料清册</title>
 	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="../css/main.css">
+	<link rel="stylesheet" type="text/css" href="../css/detail.css">
 	<link rel="stylesheet" type="text/css" href="../css/nav.css">
 	<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 	<script type="text/javascript" src="../js/url.js"></script>
 	<script type="text/javascript" src="../js/mian.js"></script>
 	<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+	<style type="text/css">
+		.stuff_box div.stuff_name{
+			width: 440px;
+		}
+	</style>
 </head>
 <body>
 <!-- 导航条 -->
@@ -49,13 +55,27 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 id="myModalLabel">已选择材料</h4>
             </div>
-            <div class="modal-body show_stuff_bofy">
+            <div class="modal-body show_stuff_body">
                 <ul class="list-group show_stuff_ul">
+                    <li class="list-group-item active">
+                        <div class="show_stuff_box">
+                            <div class="show_stuff_name">材料名称</div>
+                            <div class="show_meterialCode">材料编码</div>
+                            <div class="show_stuff_num">材料选择数量</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="show_stuff_box">
+                            <div class="show_stuff_name">材料名称</div>
+                            <div class="show_meterialCode">材料编码</div>
+                            <input type="text" data-id="122554" class="form-control show_stuff_num" value="12">
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div class="modal-footer">
+                <input class="btn btn-primary saveMaBtn" type="button" value="保存">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-                <!--<input class="btn btn-primary modal_add" type="button" value="添加">-->
             </div>
         </div>
     </div>
@@ -72,7 +92,8 @@
 			<div class="modal-body">
 				<form class="form-inline" role="form">
 					<div class="form-group">
-						<input type="text" id="count" class="form-control">
+						<input type="text" id="count" class="form-control" placeholder="请输入数量">
+						<input type="text" id="atten" class="form-control" placeholder="请输入备注">
 					</div>
 					<button type="button" id="comfirm" class="btn btn-primary modal_add_btn">确认</button>
 				</form> 
@@ -86,7 +107,10 @@
 	</ul>
 </div>
 <div class="footer">
-	<a href="#modal_look" role="button" class="btn btn-primary modal_look" data-toggle="modal">查看已选择的物资</a>
+	<a href="seeSelectedDevice.html" class="btn btn-default" target="_black" id="lookDev">查看已添加的材料</a>
+	<a href="selectDevice.html" class="btn btn-default">添加新设备</a>
+	<button class="btn btn-primary" id="lookMa">查看已选择的物资</button>
+	<button class="btn btn-primary" id="submitBtn">提交已选择的物资</button>
 	<button class="btn btn-primary" id="finish">完成工程并导出Excel表格</button>
 </div>
 </body>

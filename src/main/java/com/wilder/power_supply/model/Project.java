@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.xml.ws.WebServiceRef;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,7 +16,8 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-public class Project extends BaseRowModel {
+public class Project extends BaseRowModel implements Serializable {
+    public static Long id = -134474L;
     /**
      * 工程Id
      */

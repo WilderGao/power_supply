@@ -2,18 +2,11 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>南方电网订购材料网站</title>
+	<title>配网设计材料清册</title>
 	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="../css/main.css">
 	<link rel="stylesheet" type="text/css" href="../css/nav.css">
-	<style type="text/css">
-		div.stuff_in{
-			width: 60px;
-			padding-left: 300px;
-			display: inline-block;
-		/*	float:right;*/
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="../css/detail.css">
 </head>
 <body>
 <div class="nav">
@@ -40,45 +33,52 @@ $(function(){
     	var ul = $(".stuff_ul");
     	var len = stuff.length;
     	var i = 0;
-    	var html = '<li class="list-group-item active"><div class="stuff_box"><div class="stuff_name">材料名称</div><div class="meterialCode">材料编码</div><div class="meterialUnit">单位</div><div class="stuffmeterialPrice_num">单价</div><div class="meterialAttention">备注信息</div><div class="meterialCheck">是否业扩储备物资</div><div class="stuff_num"><span>数量</span></div></div></li>';
+    	var html = '<li class="list-group-item active"><div class="stuff_box"><div class="meterialCode">材料编码</div><div class="stuff_name">材料名称</div><div class="meterialModel">规格型号</div><div class="meterialUnit">单位</div><div class="stuff_num">数量</div><div class="stuffmeterialPrice_num">单价</div><div class="meterialAttention">备注信息</div><div class="meterialCheck">是否业扩储备物资</div></div></li>';
     	for(;i<len;i++){
-    		html += '<li class="list-group-item"><div class="stuff_box"><div class="stuff_name">';
-    		html += stuff[i].meterialName + '</div><div class="meterialCode">';
-    		html += stuff[i].meterialCode + '</div><div class="meterialUnit">';
-    		html += stuff[i].meterialUnit + '</div><div class="stuffmeterialPrice_num">';
-    		html += stuff[i].meterialPrice + '</div><div class="meterialAttention">';
-    		html += stuff[i].meterialAttention + '</div><div class="meterialCheck">';
-    		html += stuff[i].meterialCheck + '</div><div class="stuff_num"><span>'
-    		html += stuff[i].num + '</span>';
-    		html += '</div></div></li>';
+    		html += '<li class="list-group-item"><div class="stuff_box"><div class="meterialCode">';
+    		html += stuff[i].meterialCode + '</div><div class="stuff_name">';
+    		html += stuff[i].meterialName + '</div><div class="meterialModel">';
+    		html += stuff[i].meterialModel + '</div><div class="meterialUnit">';
+            html += stuff[i].meterialUnit + '</div><div class="stuff_num">';
+    		html += '<input type="text" class="form-control num" value="' + stuff[i].num + '"></div><div class="stuffmeterialPrice_num">';
+    		html += stuff[i].meterialPrice + '</div><div class="meterialAttention"><input type="text" class="form-control remark" placeholder="备注"></div><div class="meterialCheck">';
+    		html += stuff[i].meterialCheck + '</div></div></li>';
     	}
     	ul.html(html);
-    	$(".modal_add").click(function(ev){
-	    	$("#mymodal").modal("toggle");
-	    });
     }
     var id = $.Request("id");
-    var allResult = $.getPro(id);
+    var allResult = $.getProDetail(id);
 	var result;	
 	if(allResult.status==200){
 		if(allResult.info==null){
 			alert("该工程没有内容");
 		}else{
 			result = allResult.info.meterials;
-			fillMainData(result);		
+			fillMainData(result);
+			$("#output").click(function(){
+				if(!result){ return ;}
+				var numArr = $("input.num");
+				var remarkArr = $("input.remark");
+				var i = 0;
+				for(i=0; i<result.length; i++){
+					result[i].num = numArr.eq(i).val();
+					result[i].meterialAttention = remarkArr.eq(i).val();
+				}
+				var json = allResult.info;
+				json.meterials = result;
+				var re = $.exportPro(json, id);
+				if(re.status==200){
+					window.location.href = re.info;
+				}else{
+					alert("下载失败，请稍后再试");
+				}
+			})
 		}
 	}else{
-		// fillMainData([]);
+		fillMainData([]);
 		alert("网络不佳，请刷新页面");
 	}
-	$("#output").click(function(){
-		var re = $.exportPro(id);
-		if(re.status==200){
-			window.location.href = re.info;
-		}else{
-			alert("下载失败，请稍后再试");
-		}
-	})
+			
 })
 </script>
 </body>

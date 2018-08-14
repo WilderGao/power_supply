@@ -46,10 +46,46 @@
 (function($) {
 	$.extend({
 		localurl:function(){
-	    	return "http://localhost/";
+	    	return "http://120.77.38.183/";
 	    },
+	    // 获取历史工程
+	    getAllPro:function(){
+			var xhr = $.ajax({
+				url: $.localurl() + "project/get",
+				type: "GET",
+				async: false
+			});
+			// console.log(xhr);
+			var result = JSON.parse(xhr.responseText);
+			return result;
+	    },
+	    // 获取工程详情
+	    getProDetail:function(id){
+			var url = $.UrlUpdateParams($.localurl()+"project/detail","projectId",id)
+			var xhr = $.ajax({
+				url: url,
+				type: "GET",
+				async: false
+			});
+			var result = JSON.parse(xhr.responseText);
+			return result;
+	    },
+	    // 导出历史工程
+	    exportPro:function(json, id){
+			var xhr = $.ajax({
+				url: $.localurl() + "project/export",
+				type: "POST",
+				contentType: 'application/json;charset=UTF-8',
+				async: false,
+				data: JSON.stringify(json)
+			});
+
+			console.log(xhr);
+			var result = JSON.parse(xhr.responseText);
+			return result;
+	    },
+	    // 新建工程
 	    createPro:function(json){
-	    	// console.log(json)
 	        var xhr = $.ajax({
 				url: $.localurl()+'project/build',
 				type: "POST",
@@ -58,10 +94,8 @@
 				async: false,
 				success: function(x){
 					console.log(x)
-                    window.location.href = x.info;
 				}
 			});
-			// var result = JSON.parse(xhr.responseText);
 			return xhr.responseJSON;
 	    },
 	    // 查找材料
@@ -93,37 +127,8 @@
 					}
 				}
 			});
-            return xhr.responseJSON;
-	    },
-	    // 获取某个工程列表
-	    getPro:function(id){
-			var url = $.UrlUpdateParams($.localurl()+"project/detail","projectId",id)
-			var xhr = $.ajax({
-				url: url,
-				type: "GET",
-				async: false
-			});
-            return xhr.responseJSON;
-	    },
-	    // 获取工程列表
-	    getAllPro:function(){
-			var xhr = $.ajax({
-				url: $.localurl() + "project/get",
-				type: "GET",
-				async: false
-			});
-			// console.log(xhr);
-            return xhr.responseJSON;
-	    },
-	    // 获取某个设备列表
-	    getDe:function(id){
-			var url = $.UrlUpdateParams($.localurl()+"device/detail","deviceId",id);
-			var xhr = $.ajax({
-				url: url,
-				type: "GET",
-				async: false
-			});
-            return xhr.responseJSON;
+			var result = JSON.parse(xhr.responseText);
+			return result;
 	    },
 	    // 获取设备列表
 	    getAllDe:function(){
@@ -132,10 +137,22 @@
 				type: "GET",
 				async: false
 			});
-            return xhr.responseJSON;
+			var result = JSON.parse(xhr.responseText);
+			return result;
 	    },
+	    // 获取某个设备详情
+	    getDeviceDetail:function(id){
+			var url = $.UrlUpdateParams($.localurl()+"device/detail","deviceId",id);
+			var xhr = $.ajax({
+				url: url,
+				type: "GET",
+				async: false
+			});
+			var result = JSON.parse(xhr.responseText);
+			return result;
+	    },
+	    // 导出设备Excel
 	    export:function(json){
-	    	// console.log(json)
 			var xhr = $.ajax({
 				url: $.localurl() + "device/export",
 				type: "POST",
@@ -143,23 +160,23 @@
 				async: false,
 				data: JSON.stringify(json)
 			});
-			// console.log(xhr)
-            return xhr.responseJSON;
+			var result = JSON.parse(xhr.responseText);
+			return result;
 	    },
+	    // 添加设备
 	    addDevice:function(json){
-	    	// console.log(json)
 			var xhr = $.ajax({
-				url: $.localurl() + "meterial/adddevice",
+				url: $.localurl() + "device/adddevice",
 				type: "POST",
 				contentType: 'application/json;charset=UTF-8',
 				async: false,
 				data: JSON.stringify(json)
 			});
-			// console.log(xhr)
-            return xhr.responseJSON;
+			var result = JSON.parse(xhr.responseText);
+			return result;
 	    },
+	    // 添加材料
 	    addMaterial:function(json){
-	    	console.log(json)
 			var xhr = $.ajax({
 				url: $.localurl() + "meterial/addmaterial",
 				type: "POST",
@@ -168,18 +185,67 @@
 				data: JSON.stringify(json)
 			});
 			// console.log(xhr)
-            return xhr.responseJSON;
+			var result = JSON.parse(xhr.responseText);
+			return result;
 	    },
-	    exportPro:function(id){
+	    // 删除某个用户已经选择的设备
+	    deleteDevice:function(sessionId,deviceId){
 	    	// console.log(json)
 			var xhr = $.ajax({
-				url: $.localurl() + "project/export?id=" + id,
+				url: $.localurl() + "device/delete/" + sessionId + "/" + deviceId,
 				type: "GET",
 				contentType: 'application/json;charset=UTF-8',
 				async: false
 			});
 			// console.log(xhr)
-            return xhr.responseJSON;
+			var result = JSON.parse(xhr.responseText);
+			return result;
 	    },
+	    // 显示已经添加的所有信息
+	    showAllMe:function(sessionId){
+	    	// console.log(json)
+			var xhr = $.ajax({
+				url: $.localurl() + "meterial/show/" + sessionId,
+				type: "POST",
+				contentType: 'application/json;charset=UTF-8',
+				async: false
+			});
+			var result = JSON.parse(xhr.responseText);
+			return result;
+	    },
+	    // 获取已经添加的所有设备的信息
+	    getSelectedDevice:function(sessionId){
+			var xhr = $.ajax({
+				url: $.localurl() + "device/selected/" + sessionId,
+				type: "GET",
+				contentType: 'application/json;charset=UTF-8',
+				async: false
+			});
+			var result = JSON.parse(xhr.responseText);
+			return result;
+	    },
+	    // 获取已经添加的材料
+	    getSelectedMa:function(sessionId){
+			var xhr = $.ajax({
+				url: $.localurl() + "meterial/selected/" + sessionId,
+				type: "GET",
+				contentType: 'application/json;charset=UTF-8',
+				async: false
+			});
+			// console.log(xhr)
+			var result = JSON.parse(xhr.responseText);
+			return result;
+	    },
+	    // 删除已经添加的材料
+	    deleteSelectedMa:function(sessionId, meterialId){
+	    	var xhr = $.ajax({
+				url: $.localurl() + "meterial/delete/" + sessionId + "/" + meterialId,
+				type: "GET",
+				contentType: 'application/json;charset=UTF-8',
+				async: false
+			});
+			var result = JSON.parse(xhr.responseText);
+			return result;
+	    }
 	});
 })(jQuery);

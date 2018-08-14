@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>南方电网订购材料网站</title>
+	<title>配网设计材料清册</title>
 	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="../css/nav.css">
 	<style type="text/css">
@@ -54,12 +54,12 @@ $(function(){
 	}
 	$("#addDevice").click(function(){
 		var checkbox = $('input:checked');
+		if(checkbox.length<=0){ alert("请选择设备"); return ; }
 		var deviceArr = [];
 		checkbox.each(function(i){
 			var value = checkbox.eq(i).attr('data-id');
 			deviceArr.push(value);
 		})
-		$.delete('deviceId');
 		var deviceId = deviceArr.join(',');
 		$.save('deviceId',deviceId);
 		window.location.href = 'selectDeviceNum.html';

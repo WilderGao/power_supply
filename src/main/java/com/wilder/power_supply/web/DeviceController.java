@@ -54,7 +54,7 @@ public class DeviceController {
     @ResponseBody
     public ResultInfo<Device> deviceDetail(@RequestParam("deviceId")int deviceId)
             throws DeviceException {
-        log.info("查看设备");
+        log.info("查看设备"+deviceId);
         return deviceService.deviceDetailHandler(deviceId);
     }
 

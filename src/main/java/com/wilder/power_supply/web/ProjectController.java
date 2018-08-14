@@ -1,17 +1,23 @@
 package com.wilder.power_supply.web;
 
 import com.wilder.power_supply.dto.ResultInfo;
+import com.wilder.power_supply.enums.StatusEnum;
 import com.wilder.power_supply.exception.ExcelException;
 import com.wilder.power_supply.exception.ProjectException;
+import com.wilder.power_supply.model.Meterial;
 import com.wilder.power_supply.model.Project;
 import com.wilder.power_supply.service.ProjectService;
+import com.wilder.power_supply.utils.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,12 +74,26 @@ public class ProjectController {
 
     @PostMapping(value = "/export")
     @ResponseBody
-    public ResultInfo<String> exportProject(@RequestParam("id") Integer projectId,
+    public ResultInfo<String> exportProject(@RequestBody Map<String, Object> map,
                                             HttpServletRequest request)
-            throws ExcelException, ProjectException, IOException, InterruptedException {
+            throws ExcelException, ProjectException, IOException, InterruptedException, IllegalAccessException, InvocationTargetException, InstantiationException {
         log.info("==== 导出历史工程 ====");
+        Project project = new Project();
+        project.setProjectName((String) map.get("projectName"));
+        project.setProjectCode((String) map.get("projectCode"));
+        project.setBatch((String) map.get("batch"));
+        project.setPowerSupply((String) map.get("powerSupply"));
+        project.setDistrict((String) map.get("district"));
+
+        List<Meterial> meterials = new LinkedList<>();
+        List<LinkedHashMap> materialHashMap = (List<LinkedHashMap>) map.get("meterials");
+        for (LinkedHashMap linkedHashMap : materialHashMap) {
+            meterials.add((Meterial) BeanUtil.mapToObject(linkedHashMap, Meterial.class));
+        }
+
+        project.setMeterials(meterials);
         String excelPathContent = request.getServletContext().getRealPath("/history/");
-        return projectService.projectExport(projectId, excelPathContent);
+        return projectService.projectExport(project, excelPathContent);
     }
 
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>南方电网订购材料网站</title>
+	<title>配网设计材料清册</title>
 	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="../css/nav.css">
 	<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
@@ -16,10 +16,10 @@
 		.stuff_box div{display: inline-block;}
 		div.projectName{width: 470px;}
 		div.projectCode{width: 180px;}
-		div.powerSupply{width: 100px;}
-		div.district{width: 100px;}
+		div.powerSupply{width: 140px;}
+		div.district{width: 120px;}
 		div.batch{width: 80px;text-align: center;}
-		div.see{width: 200px;}
+		div.see{width: 120px;text-align: center;}
 		div.see input{margin-right: 10px;}
 	</style>
 </head>
@@ -51,34 +51,19 @@ $(function(){
     		html += stuff[i].projectCode + '</div><div class="powerSupply">';
     		html += stuff[i].powerSupply + '</div><div class="district">';
     		html += stuff[i].district + '</div><div class="batch">';
-    		html += stuff[i].batch + '</div><div class="see"><input class="btn btn-primary" type="button" value="导出工程" data-id="';
-    		html += stuff[i].projectId+ '">';
+    		html += stuff[i].batch + '</div><div class="see">';
     		html += '<a role="button" class="btn btn-primary" href="detailPro.html?id=' + stuff[i].projectId + '">查看材料</a></div></div></li>';
     	}
     	ul.html(html);
     }
     var allResult = $.getAllPro(1,null);
 	var result;	
-	if(allResult.status!="404"){
+	if(allResult.status==200){
 		result = allResult.info;
 		fillMainData(result);
 	}else{
 		alert("网络不佳，请刷新页面");
 	}
-	var mainBox = $(".history_box");
-	mainBox.click(function(ev){
-		var target = $(ev.target);
-		if(ev.target.nodeName.toLowerCase() == "input"){
-			dataId = parseInt(target.attr("data-id"));
-			console.log(dataId);
-			var re = $.exportPro(dataId);
-			if(re.status==200){
-				window.location.href = re.info;
-			}else{
-				alert("下载失败，请稍后再试");
-			}
-		}
-	});
 })
 </script>
 </body>

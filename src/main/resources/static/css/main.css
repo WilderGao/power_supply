@@ -1,33 +1,3 @@
-.main_box{
-	width: 1200px;
-	margin: 10px auto;
-}
-.stuff_box{
-	overflow: hidden;
-}
-.stuff_box div{
-	float: left;
-	width: 130px;
-}
-div.meterialCode{
-	padding-left: 25px;
-	width: 150px;
-}
-div.stuff_name{
-	float: left;
-	width: 430px;
-}
-div.stuff_num{
-	width: 100px;
-	float:right;
-}
-div.meterialUnit, div.stuffmeterialPrice_num{
-	width: 90px;
-}
-div.meterialCheck{
-	width: 130px;
-	text-align: center;
-}
 .count_input{
 	display: inline-block;
 	width: 40px;
@@ -49,16 +19,16 @@ div.meterialCheck{
 	right: 0;
 	z-index: 20;
 }
-.show_stuff_bofy{
+.show_stuff_body, .show_device_body{
     position: relative;
     max-height: 400px;
     padding: 15px;
     overflow-y: auto;
 }
-.show_stuff_ul{
+.show_stuff_ul, .show_device_ul{
 	position: relative;
 }
-.show_stuff_box{
+.show_stuff_box, .device_box{
 	overflow: hidden;
 }
 div.show_meterialCode{
@@ -69,7 +39,17 @@ div.show_stuff_name{
 	float: left;
 	width: 200px;
 }
-div.show_stuff_num{
+.show_stuff_num{
+	width: 100px;
+	float:right;
+	height: 25px;
+}
+
+div.show_device_name{
+	float: left;
+	width: 300px;
+}
+#deleteDevBtn{
 	width: 100px;
 	float:right;
 }
@@ -88,4 +68,8 @@ div.show_stuff_num{
 	border-top: 1px solid gray;
 	z-index: 3;
 	text-align: right;
+}
+.footer a{
+	float: left;
+	margin-right: 5px;
 }

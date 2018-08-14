@@ -6,30 +6,33 @@
 	overflow: hidden;
 }
 .stuff_box div{
-	/*float: left;*/
 	display: inline-block;
-	width: 150px;
+	width: 130px;
 }
 div.stuff_name{
-	/*float: left;*/
-	width: 400px;
+	width: 370px;
 }
 div.stuff_num{
 	width: 100px;
 	text-align: center;
 }
-div.stuff_in{
-	width: 60px;
-	padding-left: 300px;
-	display: inline-block;
-/*	float:right;*/
-}
 div.meterialUnit{
 	width: 70px;
 }
 div.stuffmeterialPrice_num{
-	width: 70px;	
+	width: 70px;
+	text-align: center;
 }
 div.meterialCheck{
 	text-align: center;
+}
+div.meterialModel{
+	width: 130px;
+	text-align: center;
+}
+
+div.stuff_in{
+	width: 60px;
+	padding-left: 300px;
+	display: inline-block;
 }

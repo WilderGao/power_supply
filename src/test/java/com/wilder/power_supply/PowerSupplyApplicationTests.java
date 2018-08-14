@@ -53,7 +53,7 @@ public class PowerSupplyApplicationTests {
 		for (Meterial meterial : resultInfo.getInfo().getMeterials()) {
 			System.out.println(meterial);
 		}
-		ExcelUtil.exportExcel(resultInfo.getInfo().getMeterials(), resultInfo.getInfo().getDeviceName());
+//		ExcelUtil.exportExcel(resultInfo.getInfo().getMeterials(), resultInfo.getInfo().getDeviceName());
 
 	}
 

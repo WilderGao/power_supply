@@ -47,13 +47,13 @@ public interface ProjectService {
     /**
      *
      * 导出历史工程
-     * @param projectId 工程Id
+     * @param project 工程
      * @param excelPathContent excel目录
      * @return 返回下载路径
      * @throws ProjectException
      * @throws IOException
      * @throws ExcelException
      */
-    ResultInfo<String> projectExport(int projectId, String excelPathContent)
+    ResultInfo<String> projectExport(Project project, String excelPathContent)
             throws ProjectException, IOException, ExcelException, InterruptedException;
 }

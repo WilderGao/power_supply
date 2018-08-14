@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>配网工程设计材料清册网站</title>
+	<title>配网设计材料清册</title>
 	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="../css/nav.css">
 	<style type="text/css">
@@ -70,6 +70,7 @@ $(function(){
 	var key4 = $("#powerSupply");
 	var key5 = $("#projectCode");
 	$("#search_btn").click(function(){
+		$.delete('deviceId');
 		var namekey = key1.val();
 		var districtkey = key2.val();
 		var batchkey = key3.val();
@@ -86,13 +87,6 @@ $(function(){
 			    "projectCode":projectCodekey,
 			}
 			$.save("project",JSON.stringify(data));
-			// url = $.UrlUpdateParams(url,"n",namekey);
-			// url = $.UrlUpdateParams(url,"d",districtkey);
-			// url = $.UrlUpdateParams(url,"b",batchkey);
-			// url = $.UrlUpdateParams(url,"po",powerSupplykey);
-			// url = $.UrlUpdateParams(url,"pr",projectCodekey);
-			// console.log(url);
-			// console.log($.Request("n"));
 			window.location.href = url;
 		}else{
 			alert("请填写完表单");

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>南方电网订购材料网站</title>
+	<title>配网设计材料清册</title>
 	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="../css/detail.css">
 	<link rel="stylesheet" type="text/css" href="../css/nav.css">
@@ -38,29 +38,29 @@ $(function(){
     	var arr = [];
     	var len = stuff.length;
     	var i = 0;
-    	var html = '<li class="list-group-item active"><div class="stuff_box"><div class="stuff_name">材料名称</div><div class="meterialCode">材料编码</div><div class="meterialUnit">单位</div><div class="stuffmeterialPrice_num">单价</div><div class="meterialAttention">备注信息</div><div class="meterialCheck">是否业扩储备物资</div><div class="stuff_num"><span>数量</span></div></div></li>';
+    	var html = '<li class="list-group-item active"><div class="stuff_box"><div class="meterialCode">材料编码</div><div class="stuff_name">材料名称</div><div class="meterialModel">规格型号</div><div class="meterialUnit">单位</div><div class="stuff_num">数量</div><div class="stuffmeterialPrice_num">单价</div><div class="meterialAttention">备注信息</div><div class="meterialCheck">是否业扩储备物资</div></div></li>';
     	for(;i<len;i++){
-    		html += '<li class="list-group-item"><div class="stuff_box"><div class="stuff_name">';
-    		html += stuff[i].meterialName + '</div><div class="meterialCode">';
-    		html += stuff[i].meterialCode + '</div><div class="meterialUnit">';
-    		html += stuff[i].meterialUnit + '</div><div class="stuffmeterialPrice_num">';
-    		html += stuff[i].meterialPrice + '</div><div class="meterialAttention">';
-    		html += stuff[i].meterialAttention + '</div><div class="meterialCheck">';
-    		html += stuff[i].meterialCheck + '</div><div class="stuff_num">';
-    		if(stuff[i].num=='*'){
+       		html += '<li class="list-group-item"><div class="stuff_box"><div class="meterialCode">';
+    		html += stuff[i].meterialCode + '</div><div class="stuff_name">';
+    		html += stuff[i].meterialName + '</div><div class="meterialModel">';
+    		html += stuff[i].meterialModel + '</div><div class="meterialUnit">';
+    		html += stuff[i].meterialUnit + '</div><div class="stuff_num">';
+			if(stuff[i].num=='*'){
     			html += '<input type="text" class="form-control num" placeholder="请输入数量">';
     			arr.push(i);
     		}
     		else{
     			html += '<span>' + stuff[i].num + '</span>'
     		}
-       		html += '</div></div></li>';
+			html += '</div><div class="stuffmeterialPrice_num">';
+    		html += stuff[i].meterialPrice + '</div><div class="meterialAttention"><input type="text" class="form-control remark" placeholder="备注"></div><div class="meterialCheck">';
+    		html += stuff[i].meterialCheck + '</div></div></li>';
     	}
     	ul.html(html);
     	return arr;
     }
     var id = $.Request("id");
-    var allResult = $.getDe(id);
+    var allResult = $.getDeviceDetail(id);
 	var result;	var unkonwArr = [];
 	if(allResult.status!=404){
 		result = allResult.info.meterials;
@@ -72,11 +72,15 @@ $(function(){
 	}
 	$("#output").click(function(){
 		var inarr = $("input.num");
+		var remarkArr = $("input.remark");
 		var i = 0;
 		var now = 0;
 		for(;i<unkonwArr.length;i++){
 			now = unkonwArr[i];
 			result[now].num = inarr.eq(i).val();
+		}
+		for(i=0; i<result.length; i++){
+			result[i].meterialAttention = remarkArr.eq(i).val();
 		}
 		var json = {
 			"deviceName":allResult.info.deviceName,
@@ -84,10 +88,11 @@ $(function(){
 		}
 		var re = $.export(json);
 		if(re.status==200){
-			// setTimeout( () => {
+			setTimeout( () => {
 				window.location.href = re.info;
-			// }, 1000);
-			// window.event.returnValue = false;
+			}, 1000);
+			window.event.returnValue = false;
+			// "http://nginx.org/download/nginx-1.13.12.tar.gz"
 		}
 	})
 })

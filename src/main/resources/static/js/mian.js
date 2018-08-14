@@ -6,16 +6,15 @@ $(function(){
     	var ul = $(".stuff_ul");
     	var len = stuff.length;
     	var i = 0;
-    	var html = '<li class="list-group-item active"><div class="stuff_box"><div class="stuff_name">材料名称</div><div class="meterialCode">材料编码</div><div class="meterialUnit">单位</div><div class="stuffmeterialPrice_num">单价</div><div class="meterialAttention">备注信息</div><div class="meterialCheck">是否业扩储备物资</div></div></li>';
+    	var html = '<li class="list-group-item active"><div class="stuff_box"><div class="meterialCode">材料编码</div><div class="stuff_name">材料名称</div><div class="meterialModel">规格型号</div><div class="meterialUnit">单位</div><div class="stuff_num">添加材料</div><div class="stuffmeterialPrice_num">单价</div><div class="meterialCheck">是否业扩储备物资</div></div></li>';
     	for(;i<len;i++){
-    		html += '<li class="list-group-item"><div class="stuff_box"><div class="stuff_name">';
-    		html += stuff[i].meterialName + '</div><div class="meterialCode">';
-    		html += stuff[i].meterialCode + '</div><div class="meterialUnit">';
-    		html += stuff[i].meterialUnit + '</div><div class="stuffmeterialPrice_num">';
-    		html += stuff[i].meterialPrice + '</div><div class="meterialAttention">';
-    		html += stuff[i].meterialAttention + '</div><div class="meterialCheck">';
-    		html += stuff[i].meterialCheck + '</div><div class="stuff_num"><input class="btn btn-primary modal_add" type="button" value="修改数量" data-id="'+ i + '">';
-    		html += '</div></div></li>';
+    		html += '<li class="list-group-item"><div class="stuff_box"><div class="meterialCode">';
+    		html += stuff[i].meterialCode + '</div><div class="stuff_name">';
+    		html += stuff[i].meterialName + '</div><div class="meterialModel">';
+    		html += stuff[i].meterialModel + '</div><div class="meterialUnit">';
+    		html += stuff[i].meterialUnit + '</div><div class="stuff_num"><input class="btn btn-primary modal_add" type="button" value="修改数量" data-id="'+ i + '"></div><div class="stuffmeterialPrice_num">';
+    		html += stuff[i].meterialPrice + '</div><div class="meterialCheck">';
+    		html += stuff[i].meterialCheck + '</div></div></li>';
     	}
     	ul.html(html);
     	$(".modal_add").click(function(ev){
@@ -23,8 +22,9 @@ $(function(){
 	    });
     }
     var allResult = $.searchStuff(1,null);
+    // var allResult = {}
 	var result;	
-	if(allResult.status!="404"){
+	if(allResult.status==200){
 		result = allResult.info;
 		fillMainData(result);
 	}else{
@@ -38,6 +38,7 @@ $(function(){
     var selectjson = [];var dataId = '';var local = -1;
 	var mainBox = $(".main_box");
 	var inp = $("#count");
+	var attenInp = $(".atten");
 	// 模态框弹出和消失
 	$(".modal_add_btn").click(function(ev){
     	$("#mymodal").modal("toggle");
@@ -50,10 +51,12 @@ $(function(){
 			// 遍历select，查找是否有该项目
 			var i = 0,len = selectjson.length;
 			inp.val('');
+			attenInp.val('');
 			for(local = -1;i<len;i++){
 				if(selectjson[i].meterialId == result[dataId].meterialId){
 					local = i;
 					inp.val(selectjson[i].num);
+					attenInp.val(selectjson[i].meterialAttention);
 					break;
 				}
 			}
@@ -73,22 +76,20 @@ $(function(){
 			var json = {
 				"meterialId":result[dataId].meterialId,
 				"meterialCode":result[dataId].meterialCode,
+				"meterialModel":result[dataId].meterialModel,
 				"meterialName":result[dataId].meterialName,
 				"meterialUnit":result[dataId].meterialUnit,
 				"meterialPrice":result[dataId].meterialPrice,
 				"meterialCheck":result[dataId].meterialCheck,
-				"meterialAttention":result[dataId].meterialAttention,
+				"meterialAttention":attenInp.val(),
 				"num":value
 			}
 			selectjson.push(json);
 		}else if(local!=-1&&value>0){
-			// 修改
 			selectjson[local].num = value;
 		}else if(local!=-1){
-			// 删除
 			selectjson.splice(local,1);
 		}
-		// console.log(selectjson);
 	})
 
 	// 查看已选择的材料时，填充所有已选择的材料
@@ -100,19 +101,39 @@ $(function(){
     	for(;i<len;i++){
     		html += '<li class="list-group-item"><div class="show_stuff_box"><div class="show_stuff_name">';
     		html += stuff[i].meterialName + '</div><div class="show_meterialCode">';
-    		html += stuff[i].meterialCode + '</div><div class="show_stuff_num">';
-    		html += stuff[i].num + '</div></div></li>';
+    		html += stuff[i].meterialCode + '</div><input type="text" class="form-control show_stuff_num" value="';
+    		html += stuff[i].num + '"></div></li>';
     	}
     	ul.html(html);
     }
-    var footerBox = $(".footer");
-	footerBox.click(function(ev){
-		var target = $(ev.target);
-		if(ev.target.nodeName.toLowerCase() == "a"){
-			fillSeleteData(selectjson);
-		}
-	});
-
+    var lookMaBtn = $("#lookMa");
+    lookMaBtn.click(function(){
+    	$("#modal_look").modal("toggle");
+    	fillSeleteData(selectjson);
+    })
+    // 提交材料
+    $(".saveMaBtn").click(function(){
+    	console.log("ok");
+    	var inarr = $("input.show_stuff_num");
+    	var changeNum = 0;
+    	var i = 0;var j = 0;
+    	while(i<selectjson.length){
+    		var changeNum = parseInt(inarr.eq(j).val());
+    		if(selectjson[i].num != changeNum){
+	    		if(changeNum > 0){
+					selectjson[i].num = changeNum;// 修改
+					i++;
+				}else{
+					selectjson.splice(i,1);// 删除
+				}
+    		}else{
+    			i++;
+    		}
+    		j++;
+    	}
+    	fillSeleteData(selectjson);
+    	$("#modal_look").modal("toggle");
+    })
 
 	// 修改查找方式
 	var searchType = 1;	
@@ -137,7 +158,6 @@ $(function(){
 	});
 	$("#search_btn").click(function(){
 		var searchResult;
-		// 获取搜索的关键字
 		var value = $("#search_key_input").val();
 		if(value==''){
 			result = allResult.info;
@@ -152,29 +172,34 @@ $(function(){
 				alert("网络不佳，请稍后重试");
 			}
 		}	
-		// 填充搜索后的内容
 		fillMainData(result);
 	})
 	var proData = JSON.parse($.search("project"));
 	var sessionId = $.search("sessionId");
 	proData.sessionId = sessionId;
-	var finishBtn = $("#finish");
-	finishBtn.click(function(){
+	// 提交材料
+	$("#submitBtn").click(function(){
 		var data = {
 			"sessionId": sessionId,
 			"meterials":selectjson
 		}
 		var res = $.addMaterial(data);
 		if(res.status==200){
-			res = $.createPro(proData);
-			if(res.status==200){
-				// setTimeout( () => {
-				// 	window.location.href = res.info;
-					// window.event.returnValue = false;
-				// }, 1000);
-			}else{
-				alert("提交失败，请重试");
-			}
+			alert("提交成功");
+			selectjson = [];
+		}else{
+			alert("提交失败，请重试");
+		}
+	})
+	// 完成工程
+	var finishBtn = $("#finish");
+	finishBtn.click(function(){
+		var res = $.createPro(proData);
+		if(res.status==200){
+			setTimeout( () => {
+				window.location.href = res.info;
+				window.event.returnValue = false;
+			}, 1000);
 		}else{
 			alert("提交失败，请重试");
 		}

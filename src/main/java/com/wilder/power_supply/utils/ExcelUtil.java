@@ -39,8 +39,8 @@ public class ExcelUtil {
 
 
     private static List<String> projectContents = Arrays.asList(
-            "   项目编号   ", "工程名称", " 区局 ", "批次", "  供电所  ",
-            "   材料编码   ", "   材料名称   ", "单位", "单价", "是否业扩","备注信息","数量"
+            "   区局   ", "批次", " 供电所 ", "项目编号", "  工程名称  ","  序号 ",
+            "   材料编码   ", "   材料名称   ", "  规格型号  ", "单位", "数量", "单价", "是否业扩","备注信息"
     );
 
     private static String url = "http://120.77.38.183/";
@@ -89,6 +89,7 @@ public class ExcelUtil {
         }else {
             HSSFWorkbook workbook = new HSSFWorkbook();
             //创建excel表格
+
             HSSFSheet spreadSheet = workbook.createSheet("day");
 
             //设置单元格大小
@@ -204,47 +205,53 @@ public class ExcelUtil {
             style.setFont(font);
             int cellNum;
 
-            for (Meterial material : project.getMeterials()) {
+            List<Meterial> meterials = project.getMeterials();
+            for (int i = 0; i< meterials.size(); i++) {
                 cellNum = 0;
                 row = spreadSheet.createRow(rowId ++);
 
                 //将材料的信息插入 excel 单元格中
                 Cell cellProjectCode = row.createCell(cellNum ++);
-                cellProjectCode.setCellValue(project.getProjectCode());
+                cellProjectCode.setCellValue(project.getDistrict());
 
                 Cell cellProjectName = row.createCell(cellNum++);
-                cellProjectName.setCellValue(project.getProjectName());
+                cellProjectName.setCellValue(project.getBatch());
 
                 Cell cellProjectDistinct = row.createCell(cellNum++);
-                cellProjectDistinct.setCellValue(project.getDistrict());
+                cellProjectDistinct.setCellValue(project.getPowerSupply());
 
                 Cell cellProjectBatch = row.createCell(cellNum++);
-                cellProjectBatch.setCellValue(project.getBatch());
+                cellProjectBatch.setCellValue(project.getProjectCode());
 
                 Cell cellProjectSupply = row.createCell(cellNum++);
-                cellProjectSupply.setCellValue(project.getPowerSupply());
+                cellProjectSupply.setCellValue(project.getProjectName());
+
+                Cell cellIndex = row.createCell(cellNum++);
+                cellIndex.setCellValue(i+1);
 
                 Cell cellCode = row.createCell(cellNum++);
-                cellCode.setCellValue(material.getMeterialCode());
+                cellCode.setCellValue(meterials.get(i).getMeterialCode());
 
                 Cell cellName = row.createCell(cellNum++);
-                cellName.setCellValue(material.getMeterialName());
+                cellName.setCellValue(meterials.get(i).getMeterialName());
+
+                Cell cellModel = row.createCell(cellNum++);
+                cellModel.setCellValue(meterials.get(i).getMeterialModel());
 
                 Cell cellUnit = row.createCell(cellNum++);
-                cellUnit.setCellValue(material.getMeterialUnit());
-
-                Cell cellPrice = row.createCell(cellNum++);
-                cellPrice.setCellValue(material.getMeterialPrice());
-
-                Cell cellCheck = row.createCell(cellNum++);
-                cellCheck.setCellValue(material.getMeterialCheck());
-
-                Cell cellAttention = row.createCell(cellNum++);
-                cellAttention.setCellValue(material.getMeterialAttention());
+                cellUnit.setCellValue(meterials.get(i).getMeterialUnit());
 
                 Cell cellNumber = row.createCell(cellNum++);
-                cellNumber.setCellValue(material.getNum());
+                cellNumber.setCellValue(meterials.get(i).getNum());
 
+                Cell cellPrice = row.createCell(cellNum++);
+                cellPrice.setCellValue(meterials.get(i).getMeterialPrice());
+
+                Cell cellCheck = row.createCell(cellNum++);
+                cellCheck.setCellValue(meterials.get(i).getMeterialCheck());
+
+                Cell cellAttention = row.createCell(cellNum);
+                cellAttention.setCellValue(meterials.get(i).getMeterialAttention());
 
             }
 
