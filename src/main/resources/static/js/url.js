@@ -48,6 +48,18 @@
 		localurl:function(){
 	    	return "http://120.77.38.183/";
 	    },
+	    // 修改历史工程材料数量
+	    updateNum:function(json){
+			var xhr = $.ajax({
+				url: $.localurl() + "project/updatenum",
+				type: "POST",
+				contentType: 'application/json;charset=UTF-8',
+				async: false,
+				data: JSON.stringify(json)
+			});
+			var result = JSON.parse(xhr.responseText);
+			return result;
+	    },
 	    // 获取历史工程
 	    getAllPro:function(){
 			var xhr = $.ajax({

@@ -33,7 +33,7 @@ $(function(){
     	var ul = $(".stuff_ul");
     	var len = stuff.length;
     	var i = 0;
-    	var html = '<li class="list-group-item active"><div class="stuff_box"><div class="meterialCode">材料编码</div><div class="stuff_name">材料名称</div><div class="meterialModel">规格型号</div><div class="meterialUnit">单位</div><div class="stuff_num">数量</div><div class="stuffmeterialPrice_num">单价</div><div class="meterialAttention">备注信息</div><div class="meterialCheck">是否业扩储备物资</div></div></li>';
+    	var html = '<li class="list-group-item active"><div class="stuff_box"><div class="meterialCode">材料编码</div><div class="stuff_name">材料名称</div><div class="meterialModel">规格型号</div><div class="meterialUnit">单位</div><div class="stuff_num">数量</div><div class="stuffmeterialPrice_num">单价</div><div class="meterialAttention">备注信息</div></div></li>';
     	for(;i<len;i++){
     		html += '<li class="list-group-item"><div class="stuff_box"><div class="meterialCode">';
     		html += stuff[i].meterialCode + '</div><div class="stuff_name">';
@@ -41,8 +41,7 @@ $(function(){
     		html += stuff[i].meterialModel + '</div><div class="meterialUnit">';
             html += stuff[i].meterialUnit + '</div><div class="stuff_num">';
     		html += '<input type="text" class="form-control num" value="' + stuff[i].num + '"></div><div class="stuffmeterialPrice_num">';
-    		html += stuff[i].meterialPrice + '</div><div class="meterialAttention"><input type="text" class="form-control remark" placeholder="备注"></div><div class="meterialCheck">';
-    		html += stuff[i].meterialCheck + '</div></div></li>';
+    		html += stuff[i].meterialPrice + '</div><div class="meterialAttention"><input type="text" class="form-control remark" placeholder="备注"></div><div class="meterialCheck"><a class="btn btn-primary change" index="' + i + '" data-id="' + stuff[i].meterialId + '">保存</a></div></div></li>';
     	}
     	ul.html(html);
     }
@@ -73,12 +72,28 @@ $(function(){
 					alert("下载失败，请稍后再试");
 				}
 			})
+			$(".change").click(function(ev){
+				var maId = parseInt($(ev.target).attr("data-id"));
+				var index = parseInt($(ev.target).attr("index"));
+				var maNum = parseInt($("input.num").eq(index).val());
+				var json = {
+					projectId: parseInt(id),
+					meterialId: maId,
+					num: maNum
+				}
+				var re = $.updateNum(json);
+				if(re.status==200){
+					alert("保存成功")
+				}else{
+					alert("保存失败请重试");
+				}
+			})
 		}
 	}else{
 		fillMainData([]);
 		alert("网络不佳，请刷新页面");
 	}
-			
+				
 })
 </script>
 </body>
