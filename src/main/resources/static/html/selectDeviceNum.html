@@ -40,7 +40,7 @@ $(function(){
     	var meterials = info.meterials;
     	var len = meterials.length;
     	var i = 0;
-    	var html = '<h3 class="device_name">' + info.deviceName + '</h3><ul class="list-group stuff_ul"><li class="list-group-item active"><div class="stuff_box"><div class="meterialCode">材料编码</div><div class="stuff_name">材料名称</div><div class="meterialModel">规格型号</div><div class="meterialUnit">单位</div><div class="stuff_num">添加材料</div><div class="stuffmeterialPrice_num">单价</div><div class="meterialAttention">备注信息</div><div class="meterialCheck">是否业扩储备物资</div></div></li>';
+    	var html = '<h3 class="device_name">' + info.deviceName + '</h3><ul class="list-group stuff_ul"><li class="list-group-item active"><div class="stuff_box"><div class="meterialCode">材料编码</div><div class="stuff_name">材料名称</div><div class="meterialModel">规格型号</div><div class="meterialUnit">单位</div><div class="stuff_num">数量</div><div class="stuffmeterialPrice_num">单价</div><div class="meterialAttention">备注信息</div><div class="meterialCheck">是否业扩储备物资</div></div></li>';
     	for(;i<len;i++){
     		html += '<li class="list-group-item"><div class="stuff_box"><div class="meterialCode">';
     		html += meterials[i].meterialCode + '</div><div class="stuff_name">';

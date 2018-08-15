@@ -153,6 +153,14 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Override
+    public ResultInfo<String> updateProjectMaterialNum(Integer projectId, Integer materialId, Integer num) {
+        projectDao.updateProjectMaterialNum(projectId, materialId, num);
+        ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.OK.getState(), "修改成功");
+        resultInfo.setInfo("修改成功");
+        return resultInfo;
+    }
+
     /**
      * 检验发送的格式是否有问题
      * @param project

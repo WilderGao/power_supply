@@ -96,4 +96,20 @@ public class ProjectController {
         return projectService.projectExport(project, excelPathContent);
     }
 
+    @PostMapping(value = "/updatenum")
+    @ResponseBody
+    public ResultInfo<String> updateProjectNum(@RequestBody Map<String, Integer> map){
+        log.info("修改工程材料的数量");
+        Integer projectId = map.get("projectId");
+        Integer materialId = map.get("meterialId");
+        Integer num = map.get("num");
+
+        if (projectId < 0 || materialId < 0 || num < 0){
+            ResultInfo<String> resultInfo = new ResultInfo<>(StatusEnum.ERROR.getState(), "请求参数有误");
+            resultInfo.setInfo("请求参数有误");
+            return resultInfo;
+        }
+        return projectService.updateProjectMaterialNum(projectId, materialId, num);
+    }
+
 }

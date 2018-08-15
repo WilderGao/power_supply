@@ -56,4 +56,13 @@ public interface ProjectService {
      */
     ResultInfo<String> projectExport(Project project, String excelPathContent)
             throws ProjectException, IOException, ExcelException, InterruptedException;
+
+    /**
+     * 修改历史工程中材料的数量
+     * @param projectId 工程Id
+     * @param materialId    材料Id
+     * @param num   数量
+     * @return  修改结果，成功为200，失败为500
+     */
+    ResultInfo<String> updateProjectMaterialNum(Integer projectId, Integer materialId, Integer num);
 }

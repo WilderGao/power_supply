@@ -96,4 +96,11 @@
         SELECT * FROM  project
         WHERE project_id = ${projectId}
     </select>
+
+    <!-- 修改历史工程中材料的数量-->
+    <update id="updateProjectMaterialNum" parameterType="java.lang.Integer">
+        UPDATE demand SET num = #{num}
+        WHERE project_id = #{projectId}
+              AND meterial_id = #{materialId}
+    </update>
 </mapper>

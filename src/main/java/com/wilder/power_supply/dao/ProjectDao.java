@@ -70,4 +70,16 @@ public interface ProjectDao {
      * @return
      */
     Project getProjectById(@Param("projectId") int projectId);
+
+
+    /**
+     * 修改历史工程中材料的数量
+     * @param projectId
+     * @param materialId
+     * @param num
+     * @return
+     */
+    int updateProjectMaterialNum(@Param("projectId")Integer projectId,
+                                 @Param("materialId")Integer materialId,
+                                 @Param("num") Integer num);
 }

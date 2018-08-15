@@ -62,7 +62,7 @@ $(function(){
     	// var stuff = stuffs.meterials;
     	var len = stuff.length;
     	var i = 0;
-    	var html = '<h3 class="device_name"><span>其他材料</span></h3><ul class="list-group stuff_ul"><li class="list-group-item active"><div class="stuff_box"><div class="meterialCode">材料编码</div><div class="stuff_name">材料名称</div><div class="meterialUnit">单位</div><div class="stuff_num"><span>数量</span></div><div class="stuffmeterialPrice_num">单价</div><div class="meterialAttention">备注信息</div><div class="meterialCheck">是否业扩储备物资</div></div></li>';
+    	var html = '<h3 class="device_name"><span>其他材料</span></h3><ul class="list-group stuff_ul"><li class="list-group-item active"><div class="stuff_box"><div class="meterialCode">材料编码</div><div class="stuff_name">材料名称</div><div class="meterialModel">规格型号</div><div class="meterialUnit">单位</div><div class="stuff_num"><span>数量</span></div><div class="stuffmeterialPrice_num">单价</div><div class="meterialAttention">备注信息</div><div class="meterialCheck">是否业扩储备物资</div></div></li>';
     	for(;i<len;i++){
     		html += '<li class="list-group-item"><div class="stuff_box"><div class="meterialCode">';
     		html += stuff[i].meterialCode + '</div><div class="stuff_name">';
@@ -90,22 +90,24 @@ $(function(){
 			fillMainData(deviceId[idIndex]);
 	    	idIndex++;
 	    }
-    }else{
-    	alert("网络不佳，请刷新页面")
     }
+    // else{
+    // 	alert("网络不佳，请刷新页面")
+    // }
     var otherMa = $.getSelectedMa(sessionId);
     if(otherMa&&(otherMa.status==200)){
 		fillMaData(otherMa.info);
-    }else{
-    	alert("网络不佳，请刷新页面")
     }
+    // else{
+    // 	alert("网络不佳，请刷新页面")
+    // }
     // 删除设备
 	$(".devices_group_box").click(function(ev){		
 		var target = $(ev.target);
 		if(ev.target.nodeName.toLowerCase() == "button"){
 			var dataId = parseInt(target.attr("data-id"));
 			var re = $.deleteDevice(sessionId, dataId);
-			if(re&&(re.state==200)){
+			if(re&&(re.status==200)){
 				window.location.href = "seeSelectedDevice.html";
 			}else{
 				alert("网络不佳，请刷新页面");
@@ -120,7 +122,8 @@ $(function(){
 			var re = $.deleteSelectedMa(sessionId, dataId);
 			if(re&&(re.status==200)){
 				window.location.href = "seeSelectedDevice.html";
-			}else{
+			}
+			else{
 				alert("网络不佳，请刷新页面");
 			}
 		}
