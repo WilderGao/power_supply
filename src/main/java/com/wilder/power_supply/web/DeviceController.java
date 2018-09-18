@@ -46,7 +46,6 @@ public class DeviceController {
         log.info(" ==== 导出设备为excel ====");
         String excelPath = request.getServletContext().getRealPath("/device/" + device.getDeviceName()+".xls");
         return deviceService.deportDevice(device, excelPath);
-
     }
 
 
@@ -65,7 +64,8 @@ public class DeviceController {
      */
     @PostMapping("/adddevice")
     @ResponseBody
-    public ResultInfo<String> saveBuffer(@RequestBody Map<String, Object> requestMap) throws IllegalAccessException, InstantiationException, InvocationTargetException {
+    public ResultInfo<String> saveBuffer(@RequestBody Map<String, Object> requestMap)
+            throws IllegalAccessException, InstantiationException, InvocationTargetException {
         return deviceService.saveSelectedDevice(requestMap);
     }
 

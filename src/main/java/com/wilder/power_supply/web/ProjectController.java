@@ -9,7 +9,6 @@ import com.wilder.power_supply.model.Project;
 import com.wilder.power_supply.service.ProjectService;
 import com.wilder.power_supply.utils.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +50,7 @@ public class ProjectController {
         String projectCode = map.get("projectCode");
         String projectName = map.get("projectName");
 
+        log.info("导出excel表格");
         Project project = new Project(district, batch, powerSupply, projectCode, projectName);
 
         String excelPath = request.getServletContext().getRealPath("/project/"+projectName+".xls");
@@ -88,7 +88,10 @@ public class ProjectController {
         List<Meterial> meterials = new LinkedList<>();
         List<LinkedHashMap> materialHashMap = (List<LinkedHashMap>) map.get("meterials");
         for (LinkedHashMap linkedHashMap : materialHashMap) {
-            meterials.add((Meterial) BeanUtil.mapToObject(linkedHashMap, Meterial.class));
+            Meterial meterial = (Meterial) BeanUtil.mapToObject(linkedHashMap, Meterial.class);
+            if (meterial.getNum() != null){
+                meterials.add(meterial);
+            }
         }
 
         project.setMeterials(meterials);

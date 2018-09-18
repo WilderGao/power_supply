@@ -58,9 +58,13 @@ public interface DeviceService {
     ResultInfo<String> deleteChooseDevice(String sessionId, int deviceId);
 
     /**
+     *
      * 保存已经选择的设备信息
      * @param map 请求的键值对
      * @return  结果集合
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
      */
     ResultInfo<String> saveSelectedDevice(Map<String, Object> map) throws IllegalAccessException, InvocationTargetException, InstantiationException;
 

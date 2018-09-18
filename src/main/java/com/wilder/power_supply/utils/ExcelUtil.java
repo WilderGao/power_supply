@@ -255,9 +255,15 @@ public class ExcelUtil {
 
             }
 
-            FileOutputStream outputStream = new FileOutputStream(
-                    new File(excelPath)
-            );
+            File file = new File(excelPath);
+
+            if (!file.exists()){
+                boolean result = file.createNewFile();
+                if (result == true){
+                    log.info("文件创建成功");
+                }
+            }
+            FileOutputStream outputStream = new FileOutputStream(file);
 
             workbook.write(outputStream);
             outputStream.close();

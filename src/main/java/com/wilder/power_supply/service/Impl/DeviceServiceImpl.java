@@ -141,7 +141,10 @@ public class DeviceServiceImpl implements DeviceService {
             List<Meterial> meterials = new LinkedList<>();
             List<LinkedHashMap> materialHashMap = (List<LinkedHashMap>) hashMap.get("meterials");
             for (LinkedHashMap linkedHashMap : materialHashMap) {
-                meterials.add((Meterial) BeanUtil.mapToObject(linkedHashMap, Meterial.class));
+                Meterial meterial = (Meterial) BeanUtil.mapToObject(linkedHashMap, Meterial.class);
+                if (meterial.getNum() != null) {
+                    meterials.add(meterial);
+                }
             }
             int deviceId = (int) hashMap.get("deviceId");
             String deviceName = (String) hashMap.get("deviceName");
