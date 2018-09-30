@@ -43,7 +43,7 @@ public class ExcelUtil {
             "   材料编码   ", "   材料名称   ", "  规格型号  ", "单位", "数量", "单价", "是否业扩","备注信息"
     );
 
-    private static String url = "http://120.77.38.183/";
+    private static String url = "http://172.22.26.147/";
 
     /**
      * 操作材料 excel 表或者工程表并将数据导入到数据库

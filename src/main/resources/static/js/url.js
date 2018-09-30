@@ -46,7 +46,7 @@
 (function($) {
 	$.extend({
 		localurl:function(){
-	    	return "http://localhost/";
+	    	return "http://172.22.26.147/";
 	    },
 	    // 修改历史工程材料数量
 	    updateNum:function(json){
